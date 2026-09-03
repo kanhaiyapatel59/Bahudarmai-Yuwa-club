@@ -29,7 +29,7 @@ dotenv.config();
 const app = express();
 
 // Trust proxy for Render / Cloud reverse proxies
-app.set('trust proxy', 1);
+app.set('trust proxy', true);
 
 // Security & Utility Middleware
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -46,10 +46,11 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Rate Limiter for general API routes
+// Rate Limiter with explicit Cloud Proxy validation disabled
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 mins
   max: 300,
+  validate: { xForwardedForHeader: false },
   message: { success: false, message: 'Too many requests from this IP, please try again later.' },
 });
 app.use('/api', limiter);
