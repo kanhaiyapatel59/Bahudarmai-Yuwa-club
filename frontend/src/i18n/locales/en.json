@@ -1,0 +1,175 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About BYC",
+    "activities": "Focus Areas",
+    "sports": "Sports & Tournaments",
+    "education": "Education & Skills",
+    "social": "Social Service",
+    "environment": "Environment Drive",
+    "youth": "Youth Empowerment",
+    "culture": "Culture & Heritage",
+    "events": "Events",
+    "news": "News & Notices",
+    "gallery": "Gallery",
+    "leadership": "Leadership",
+    "achievements": "Achievements",
+    "blood": "Blood Donors",
+    "help": "Community Help",
+    "donate": "Donate",
+    "contact": "Contact Us",
+    "join": "Join BYC",
+    "volunteer": "Become a Volunteer",
+    "login": "Member Login",
+    "dashboard": "Dashboard",
+    "admin": "Admin Panel",
+    "logout": "Logout"
+  },
+  "home": {
+    "hero": {
+      "clubName": "Bahudarmai Yuwa Club",
+      "tagline": "Empowering Youth. Serving Community. Building Tomorrow.",
+      "motto": "Youth • Unity • Service • Progress",
+      "joinBtn": "Join BYC",
+      "volunteerBtn": "Become a Volunteer",
+      "exploreBtn": "Explore Our Work"
+    },
+    "about": {
+      "title": "About Bahudarmai Yuwa Club",
+      "subtitle": "A local youth-led community development platform registered in Parsa, Nepal.",
+      "desc": "BYC mobilizes young citizens to lead social change, organize sports tournaments, support education, plant trees, assist disaster victims, and run life-saving blood donation drives.",
+      "learnMore": "Learn More About Us",
+      "presidentTitle": "Message From Club Leadership",
+      "readFull": "Read Full History & Vision"
+    },
+    "stats": {
+      "title": "Our Collective Impact",
+      "youthMembers": "Youth Members",
+      "communityEvents": "Community Events",
+      "socialInitiatives": "Social Initiatives",
+      "peopleReached": "People Supported"
+    },
+    "focus": {
+      "title": "Our Primary Focus Areas",
+      "subtitle": "Driving progress across key development pillars in Bahudarmai Municipality."
+    },
+    "featuredEvents": {
+      "title": "Upcoming Community Events",
+      "subtitle": "Participate, volunteer, and make a difference together.",
+      "viewAll": "View All Events",
+      "details": "View Details",
+      "register": "Register Now"
+    },
+    "recentActivities": {
+      "title": "Latest Activities & Campaigns",
+      "subtitle": "See how BYC youth are making an active impact every week."
+    },
+    "helpCTA": {
+      "title": "Community Help & Emergency Support",
+      "subtitle": "Whether you need urgent help or want to lend a helping hand, BYC is here for you.",
+      "needHelpBtn": "I Need Help",
+      "wantHelpBtn": "I Want to Volunteer"
+    },
+    "volunteerCTA": {
+      "title": "Your Time Can Change Lives",
+      "subtitle": "Join hundreds of dedicated young volunteers supporting blood drives, sports matches, and education workshops.",
+      "btn": "Become a Volunteer Today"
+    }
+  },
+  "events": {
+    "title": "BYC Events & Programs",
+    "all": "All Events",
+    "upcoming": "Upcoming",
+    "ongoing": "Ongoing",
+    "completed": "Completed",
+    "register": "Register for Event",
+    "full": "Registration Full",
+    "deadline": "Registration Deadline",
+    "location": "Location",
+    "organizer": "Organizer",
+    "participants": "Registered Participants",
+    "maxCapacity": "Maximum Capacity",
+    "successMsg": "Registration successful!"
+  },
+  "blood": {
+    "title": "Emergency Blood Donor Network",
+    "subtitle": "Connecting community members with willing blood donors across Bahudarmai.",
+    "privacyNotice": "Privacy Protection: Donor contact numbers are kept confidential and protected from public exposure. Contact requests are routed safely through BYC coordination.",
+    "searchTitle": "Find a Blood Donor",
+    "selectGroup": "Select Blood Group",
+    "selectWard": "Select Ward Number",
+    "allWards": "All Wards",
+    "availableOnly": "Available Donors Only",
+    "registerBtn": "Register as Blood Donor",
+    "requestContact": "Request Contact",
+    "statusAvailable": "Available to Donate",
+    "statusUnavailable": "Recently Donated / Unavailable"
+  },
+  "help": {
+    "title": "BYC Community Help System",
+    "subtitle": "Submit emergency help requests or track your pending help ticket status.",
+    "tabNeed": "I Need Help (Submit Request)",
+    "tabTrack": "Track My Ticket Status",
+    "category": "Help Category",
+    "urgency": "Urgency Level",
+    "ticketLabel": "Enter Ticket Number",
+    "trackBtn": "Check Status",
+    "submitBtn": "Submit Help Request"
+  },
+  "member": {
+    "title": "BYC Membership Portal",
+    "badgeTitle": "Official BYC Digital Membership Card",
+    "code": "Member ID Code",
+    "status": "Application Status",
+    "approved": "Official Active Member",
+    "pending": "Under Committee Review",
+    "myEvents": "My Event Registrations",
+    "myVolunteering": "My Volunteer Activities"
+  },
+  "admin": {
+    "title": "BYC Admin Dashboard",
+    "members": "Members",
+    "volunteers": "Volunteers",
+    "events": "Events",
+    "news": "News & Notices",
+    "gallery": "Gallery",
+    "leadership": "Leadership",
+    "achievements": "Achievements",
+    "donors": "Blood Donors",
+    "help": "Help Requests",
+    "donations": "Donations",
+    "messages": "Contact Messages",
+    "settings": "Site Settings",
+    "overview": "Dashboard Overview",
+    "totalMembers": "Total Members",
+    "pendingApplications": "Pending Memberships",
+    "activeVolunteers": "Active Volunteers",
+    "activeEvents": "Upcoming Events",
+    "pendingHelp": "Pending Help Tickets",
+    "totalDonations": "Total Donations"
+  },
+  "forms": {
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "address": "Address / Village",
+    "ward": "Ward Number",
+    "dob": "Date of Birth",
+    "gender": "Gender",
+    "occupation": "Occupation",
+    "education": "Education Level",
+    "skills": "Skills / Strengths",
+    "interests": "Interests / Hobbies",
+    "availability": "Availability",
+    "submit": "Submit Application",
+    "cancel": "Cancel",
+    "save": "Save Changes",
+    "search": "Search..."
+  },
+  "common": {
+    "loading": "Loading...",
+    "noData": "No items found",
+    "success": "Action completed successfully",
+    "error": "Something went wrong. Please try again."
+  }
+}
