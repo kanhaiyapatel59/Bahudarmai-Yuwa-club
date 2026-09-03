@@ -108,16 +108,17 @@ export const Home = () => {
 
   return (
     <div className="space-y-16 sm:space-y-24 pb-16 bg-slate-50 text-slate-900">
-      {/* 1. Royal Blue Corporate Hero Section */}
-      <section className="relative bg-gradient-to-r from-[#012A52] via-[#02529C] to-[#013F7A] text-white min-h-[580px] flex items-center shadow-lg border-b border-blue-900">
-        {/* Real Bahudarmai Temple Backdrop Image */}
+      {/* 1. Hero Section with 100% Clear Natural Temple Background */}
+      <section className="relative bg-slate-900 text-white min-h-[580px] flex items-center shadow-lg border-b border-slate-800 overflow-hidden">
+        {/* Real Bahudarmai Temple Background Image (No Blue Overlay) */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
             src="/byc_temple_bg.jpg"
             alt="Bahudarmai Temple Background"
-            className="w-full h-full object-cover opacity-70 filter brightness-95 scale-102"
+            className="w-full h-full object-cover opacity-100 scale-100"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#011830]/85 via-[#02529C]/70 to-[#012A52]/85"></div>
+          {/* Subtle Dark Vignette Shadow for White Text Contrast */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-black/70"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 z-10 w-full">
