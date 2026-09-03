@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { LogIn, Lock, Mail, ShieldAlert } from 'lucide-react';
+import { LogIn, Lock, Mail } from 'lucide-react';
 
 export const Login = () => {
   const { t } = useTranslation();
+  const { currentLang } = useLanguage();
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -36,20 +38,15 @@ export const Login = () => {
     <div className="max-w-md mx-auto px-4 py-16">
       <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-lg space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-2">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#02529C] flex items-center justify-center mx-auto mb-2">
             <LogIn className="w-6 h-6" />
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900">{t('nav.login')}</h1>
-          <p className="text-xs text-slate-500">
-            Access your Member Portal or Executive Admin Dashboard
+          <p className={`text-xs text-slate-500 ${currentLang === 'ne' ? 'font-ne' : ''}`}>
+            {currentLang === 'ne'
+              ? 'बहुदरमाई युवा क्लब ड्यासबोर्डमा लगइन गर्नुहोस्'
+              : 'Access your Member Portal or Executive Admin Dashboard'}
           </p>
-        </div>
-
-        {/* Demo Credentials Alert Pill */}
-        <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-[11px] text-amber-900 space-y-1">
-          <div className="font-bold">🔑 Seeded Credentials for Testing:</div>
-          <div>Admin: <code className="font-mono text-slate-800 font-bold">admin@byc.org.np</code> / <code className="font-mono text-slate-800 font-bold">adminpassword123</code></div>
-          <div>Member: <code className="font-mono text-slate-800 font-bold">rohan@example.com</code> / <code className="font-mono text-slate-800 font-bold">memberpassword123</code></div>
         </div>
 
         {errorMessage && (
@@ -69,16 +66,18 @@ export const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
-                className="w-full pl-9 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-emerald-600"
+                className="w-full pl-9 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#02529C]"
               />
             </div>
           </div>
 
           <div>
             <div className="flex justify-between items-center mb-1">
-              <label className="block text-xs font-bold text-slate-700">Password *</label>
-              <Link to="/forgot-password" className="text-[11px] font-bold text-emerald-700 hover:underline">
-                Forgot password?
+              <label className="block text-xs font-bold text-slate-700">
+                {currentLang === 'ne' ? 'पासवर्ड *' : 'Password *'}
+              </label>
+              <Link to="/forgot-password" className="text-[11px] font-bold text-[#02529C] hover:underline">
+                {currentLang === 'ne' ? 'पासवर्ड बिर्सनुभयो?' : 'Forgot password?'}
               </Link>
             </div>
             <div className="relative">
@@ -89,7 +88,7 @@ export const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-9 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-emerald-600"
+                className="w-full pl-9 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#02529C]"
               />
             </div>
           </div>
@@ -97,16 +96,16 @@ export const Login = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3.5 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl shadow-md transition-colors"
+            className="w-full py-3.5 text-xs font-bold text-white bg-[#02529C] hover:bg-[#013F7A] rounded-xl shadow-md transition-colors"
           >
-            {submitting ? 'Logging in...' : 'Login'}
+            {submitting ? (currentLang === 'ne' ? 'लगइन हुँदैछ...' : 'Logging in...') : (currentLang === 'ne' ? 'लगइन गर्नुहोस्' : 'Login')}
           </button>
         </form>
 
         <div className="pt-4 border-t border-slate-100 text-center text-xs text-slate-500">
-          Don't have an account?{' '}
-          <Link to="/register" className="font-bold text-emerald-700 hover:underline">
-            Register Account
+          {currentLang === 'ne' ? 'खाता छैन?' : "Don't have an account?"}{' '}
+          <Link to="/register" className="font-bold text-[#02529C] hover:underline">
+            {currentLang === 'ne' ? 'नयाँ दर्ता गर्नुहोस्' : 'Register Account'}
           </Link>
         </div>
       </div>
