@@ -5,6 +5,7 @@ import { authorize } from '../middleware/rbac.js';
 
 const router = express.Router();
 
+router.get('/', getSiteSettings);
 router.get('/public', getSiteSettings);
 router.put('/', protect, authorize('super_admin', 'admin'), updateSiteSettings);
 
