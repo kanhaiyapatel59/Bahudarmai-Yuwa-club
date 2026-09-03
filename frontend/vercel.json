@@ -1,22 +1,7 @@
 {
-  "headers": [
-    {
-      "source": "/byc-app.apk",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/vnd.android.package-archive"
-        },
-        {
-          "key": "Content-Disposition",
-          "value": "attachment; filename=\"BYC-Bahudarmai-Yuwa-Club.apk\""
-        }
-      ]
-    }
-  ],
   "rewrites": [
     {
-      "source": "/((?!assets/|byc-app\\.apk|byc_.*|.*\\.[a-zA-Z0-9]+$).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]

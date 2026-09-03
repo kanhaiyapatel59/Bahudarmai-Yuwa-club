@@ -20,8 +20,6 @@ import {
   ChevronRight,
   Flame,
   Award,
-  Download,
-  Smartphone,
 } from 'lucide-react';
 
 export const Home = () => {
@@ -152,21 +150,18 @@ export const Home = () => {
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
-                <a
-                  href="/byc-app.apk"
-                  download="BYC-Bahudarmai-Yuwa-Club.apk"
-                  className="w-full sm:w-auto px-6 py-3.5 text-sm font-extrabold text-slate-900 bg-yellow-400 hover:bg-yellow-300 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
-                  title="Direct Download Android App (.APK)"
-                >
-                  <Download className="w-4 h-4 text-slate-900" />
-                  <span>{currentLang === 'ne' ? 'एप डाउनलोड गर्नुहोस् (.APK)' : 'Download Android App (.APK)'}</span>
-                </a>
-
                 <Link
                   to="/volunteer"
                   className="w-full sm:w-auto px-6 py-3.5 text-sm font-bold text-white bg-white/10 hover:bg-white/20 border border-white/30 rounded-xl backdrop-blur-md transition-all text-center"
                 >
                   {t('home.hero.volunteerBtn')}
+                </Link>
+
+                <Link
+                  to="/about"
+                  className="w-full sm:w-auto px-5 py-3.5 text-sm font-semibold text-blue-200 hover:text-white transition-colors text-center"
+                >
+                  {t('home.hero.exploreBtn')}
                 </Link>
               </div>
 
