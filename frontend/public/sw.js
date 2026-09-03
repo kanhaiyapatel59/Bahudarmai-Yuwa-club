@@ -1,31 +1,11 @@
-const CACHE_NAME = 'byc-pwa-cache-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/byc_logo.jpg',
-  '/byc_committee_banner.jpg',
-];
+const CACHE_NAME = 'byc-pwa-v2';
 
-// Install Service Worker
+// Install Service Worker and skip waiting
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache);
-    })
-  );
+  self.skipWaiting();
 });
 
-// Fetch Assets from Cache or Network
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    })
-  );
-});
-
-// Activate & Cleanup Old Caches
+// Activate & Claim Clients Immediately
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -36,6 +16,33 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Network-First Strategy to prevent stale JS bundle white screen on mobile
+self.addEventListener('fetch', (event) => {
+  // Only handle GET requests
+  if (event.request.method !== 'GET') return;
+
+  // Do not intercept API requests or chrome extensions
+  if (event.request.url.includes('/api/v1') || !event.request.url.startsWith('http')) return;
+
+  event.respondWith(
+    fetch(event.request)
+      .then((networkResponse) => {
+        // Cache valid static responses
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+        }
+        return networkResponse;
+      })
+      .catch(() => {
+        // Fallback to cache if network is offline
+        return caches.match(event.request);
+      })
   );
 });
