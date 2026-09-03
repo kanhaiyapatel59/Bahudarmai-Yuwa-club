@@ -110,14 +110,14 @@ export const Home = () => {
     <div className="space-y-16 sm:space-y-24 pb-16 bg-slate-50 text-slate-900">
       {/* 1. Royal Blue Corporate Hero Section */}
       <section className="relative bg-gradient-to-r from-[#012A52] via-[#02529C] to-[#013F7A] text-white min-h-[580px] flex items-center shadow-lg border-b border-blue-900">
-        {/* Real Activity Backdrop Image (Subtle Opacity Overlay) */}
+        {/* Real Bahudarmai Temple Backdrop Image */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
-            src={heroBackgroundImage}
-            alt="Activity Background"
-            className="w-full h-full object-cover opacity-15 filter grayscale-25 scale-102"
+            src="/byc_temple_bg.jpg"
+            alt="Bahudarmai Temple Background"
+            className="w-full h-full object-cover opacity-70 filter brightness-95 scale-102"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#012A52]/95 via-[#02529C]/90 to-[#013F7A]/95"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#011830]/85 via-[#02529C]/70 to-[#012A52]/85"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 z-10 w-full">
