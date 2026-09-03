@@ -124,9 +124,10 @@ export const Navbar = () => {
             )}
           </div>
 
-          <div className="flex items-center space-x-3 text-xs font-semibold text-blue-100 shrink-0">
+          <div className="flex items-center space-x-2 sm:space-x-3 text-xs font-semibold text-blue-100 shrink-0">
             <span className="font-ne hidden md:inline">📍 बहुदरमाई न.पा.-२, पिपरा (पर्सा)</span>
-            <span className="font-mono bg-white/10 px-2 py-0.5 rounded text-[11px] sm:text-xs text-white">📞 9767721133</span>
+            <span className="font-mono bg-white/10 px-2 py-0.5 rounded text-[11px] sm:text-xs text-white hidden sm:inline">📞 9767721133</span>
+            <LanguageSwitcher variant="topbar" className="lg:hidden" />
           </div>
         </div>
       </div>
@@ -352,6 +353,14 @@ export const Navbar = () => {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-4 pb-8 space-y-4 shadow-xl max-h-[85vh] overflow-y-auto animate-fade-in">
+          {/* Mobile Language Selector */}
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+              🌐 {currentLang === 'ne' ? 'भाषा छान्नुहोस्' : 'Language'}
+            </span>
+            <LanguageSwitcher />
+          </div>
+
           <div className="grid grid-cols-2 gap-2 pb-3 border-b border-slate-100">
             <Link
               to="/join"

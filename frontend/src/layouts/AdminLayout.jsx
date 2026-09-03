@@ -145,6 +145,9 @@ export const AdminLayout = () => {
                     <X className="w-6 h-6" />
                   </button>
                 </div>
+                <div className="pb-3 border-b border-slate-800 flex justify-center">
+                  <LanguageSwitcher />
+                </div>
                 <nav className="space-y-1">
                   {navItems.map((item) => (
                     <Link
