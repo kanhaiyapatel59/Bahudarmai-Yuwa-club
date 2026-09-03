@@ -6,7 +6,6 @@ import './i18n/config';
 
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
-import PWAInstallPrompt from './components/common/PWAInstallPrompt';
 
 // Public Pages
 import Home from './pages/Home';
@@ -59,7 +58,6 @@ const MainLayout = () => {
         <Outlet />
       </main>
       <Footer />
-      <PWAInstallPrompt />
     </div>
   );
 };

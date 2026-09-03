@@ -5,14 +5,6 @@
     <link rel="icon" type="image/jpeg" href="/byc_logo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bahudarmai Yuwa Club (BYC) | Youth • Unity • Service • Progress</title>
-    
-    <!-- Metas for Mobile App Display -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#0055A5" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="BYC Club" />
-    <link rel="apple-touch-icon" href="/byc_logo.jpg" />
 
     <!-- Google Fonts: Inter & Noto Sans Devanagari -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,21 +14,5 @@
   <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-[#02529C] selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-
-    <!-- Clean up any stale service workers to prevent MIME type & fetch errors on mobile -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-          for (let registration of registrations) {
-            registration.unregister();
-          }
-        });
-      }
-      if (window.caches) {
-        caches.keys().then(function(keys) {
-          keys.forEach(function(key) { caches.delete(key); });
-        });
-      }
-    </script>
   </body>
 </html>

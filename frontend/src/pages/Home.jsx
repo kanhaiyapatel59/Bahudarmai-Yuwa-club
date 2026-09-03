@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../context/LanguageContext';
 import BilingualText from '../components/common/BilingualText';
-import PWAInstallModal from '../components/common/PWAInstallModal';
 import { siteSettingsService, eventService } from '../services/api';
 import { localizeNumber } from '../utils/numberLocalizer';
 import { formatDate } from '../utils/dateFormatter';
@@ -21,8 +20,6 @@ import {
   ChevronRight,
   Flame,
   Award,
-  Download,
-  Smartphone,
 } from 'lucide-react';
 
 export const Home = () => {
@@ -32,7 +29,6 @@ export const Home = () => {
   const [settings, setSettings] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showInstallModal, setShowInstallModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,20 +150,18 @@ export const Home = () => {
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
-                <button
-                  onClick={() => setShowInstallModal(true)}
-                  className="w-full sm:w-auto px-6 py-3.5 text-sm font-extrabold text-slate-900 bg-yellow-400 hover:bg-yellow-300 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
-                  title="Direct 1-Click Mobile App Installation without Play Store"
-                >
-                  <Smartphone className="w-4 h-4 text-slate-900" />
-                  <span>{currentLang === 'ne' ? 'मोबाइल एप इन्स्टल गर्नुहोस्' : 'Install BYC Mobile App'}</span>
-                </button>
-
                 <Link
                   to="/volunteer"
                   className="w-full sm:w-auto px-6 py-3.5 text-sm font-bold text-white bg-white/10 hover:bg-white/20 border border-white/30 rounded-xl backdrop-blur-md transition-all text-center"
                 >
                   {t('home.hero.volunteerBtn')}
+                </Link>
+
+                <Link
+                  to="/about"
+                  className="w-full sm:w-auto px-5 py-3.5 text-sm font-semibold text-blue-200 hover:text-white transition-colors text-center"
+                >
+                  {t('home.hero.exploreBtn')}
                 </Link>
               </div>
 
@@ -250,9 +244,6 @@ export const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* PWA Mobile Installation Modal */}
-      <PWAInstallModal isOpen={showInstallModal} onClose={() => setShowInstallModal(false)} />
 
       {/* 2. Impact Statistics Counters */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
