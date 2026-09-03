@@ -20,25 +20,27 @@ export const AdminOverview = () => {
   useEffect(() => {
     const fetchOverview = async () => {
       try {
-        const [mRes, vRes, eRes, hRes, dRes, cRes] = await Promise.all([
-          memberService.getAll({ limit: 1 }),
-          volunteerService.getAll({ limit: 1 }),
-          eventService.getEvents({ limit: 1 }),
-          helpService.getAllAdmin({ limit: 1 }),
-          donationService.getStats(),
-          contactService.getAllAdmin({ limit: 1 }),
+        const results = await Promise.allSettled([
+          memberService.getAll ? memberService.getAll({ limit: 1 }) : Promise.reject('No memberService'),
+          volunteerService.getAll ? volunteerService.getAll({ limit: 1 }) : Promise.reject('No volunteerService'),
+          eventService.getEvents ? eventService.getEvents({ limit: 1 }) : Promise.reject('No eventService'),
+          helpService.getAllAdmin ? helpService.getAllAdmin({ limit: 1 }) : Promise.reject('No helpService'),
+          donationService.getStats ? donationService.getStats() : Promise.reject('No donationService'),
+          contactService.getAllAdmin ? contactService.getAllAdmin({ limit: 1 }) : Promise.reject('No contactService'),
         ]);
 
+        const [mRes, vRes, eRes, hRes, dRes, cRes] = results;
+
         setStats({
-          membersCount: mRes.data.total || 0,
-          volunteersCount: vRes.data.total || 0,
-          eventsCount: eRes.data.total || 0,
-          helpCount: hRes.data.total || 0,
-          donationsTotal: dRes.data.totalAmount || 0,
-          messagesCount: cRes.data.total || 0,
+          membersCount: mRes.status === 'fulfilled' && mRes.value?.data?.total ? mRes.value.data.total : 0,
+          volunteersCount: vRes.status === 'fulfilled' && vRes.value?.data?.total ? vRes.value.data.total : 0,
+          eventsCount: eRes.status === 'fulfilled' && eRes.value?.data?.total ? eRes.value.data.total : 0,
+          helpCount: hRes.status === 'fulfilled' && hRes.value?.data?.total ? hRes.value.data.total : 0,
+          donationsTotal: dRes.status === 'fulfilled' && dRes.value?.data?.totalAmount ? dRes.value.data.totalAmount : 0,
+          messagesCount: cRes.status === 'fulfilled' && cRes.value?.data?.total ? cRes.value.data.total : 0,
         });
       } catch (err) {
-        console.error('Error fetching admin overview:', err);
+        console.error('Error fetching admin overview safely:', err);
       } finally {
         setLoading(false);
       }
@@ -50,7 +52,7 @@ export const AdminOverview = () => {
 
   const statCards = [
     { title: t('admin.totalMembers'), count: stats.membersCount, icon: Users, color: 'bg-emerald-50 text-emerald-700', path: '/admin/members' },
-    { title: t('admin.activeVolunteers'), count: stats.volunteersCount, icon: HeartHandshake, color: 'bg-blue-50 text-blue-700', path: '/admin/volunteers' },
+    { title: t('admin.activeVolunteers'), count: stats.volunteersCount, icon: HeartHandshake, color: 'bg-blue-50 text-[#02529C]', path: '/admin/volunteers' },
     { title: t('admin.activeEvents'), count: stats.eventsCount, icon: Calendar, color: 'bg-amber-50 text-amber-700', path: '/admin/events' },
     { title: t('admin.pendingHelp'), count: stats.helpCount, icon: LifeBuoy, color: 'bg-red-50 text-red-700', path: '/admin/help-requests' },
     { title: `NPR ${stats.donationsTotal}`, count: 'Donations Recorded', icon: DollarSign, color: 'bg-purple-50 text-purple-700', path: '/admin/donations' },
@@ -95,24 +97,24 @@ export const AdminOverview = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Link
             to="/admin/members"
-            className="p-4 bg-slate-50 hover:bg-emerald-50 rounded-2xl border border-slate-200 hover:border-emerald-300 text-xs font-bold text-slate-800 hover:text-emerald-800 flex items-center justify-between transition-all"
+            className="p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl border border-slate-200 hover:border-blue-300 text-xs font-bold text-slate-800 hover:text-[#02529C] flex items-center justify-between transition-all"
           >
             <span>Approve Membership Applications</span>
-            <ArrowUpRight className="w-4 h-4 text-emerald-600" />
+            <ArrowUpRight className="w-4 h-4 text-[#02529C]" />
           </Link>
           <Link
             to="/admin/events"
-            className="p-4 bg-slate-50 hover:bg-emerald-50 rounded-2xl border border-slate-200 hover:border-emerald-300 text-xs font-bold text-slate-800 hover:text-emerald-800 flex items-center justify-between transition-all"
+            className="p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl border border-slate-200 hover:border-blue-300 text-xs font-bold text-slate-800 hover:text-[#02529C] flex items-center justify-between transition-all"
           >
             <span>Create New Community Event</span>
-            <ArrowUpRight className="w-4 h-4 text-emerald-600" />
+            <ArrowUpRight className="w-4 h-4 text-[#02529C]" />
           </Link>
           <Link
             to="/admin/help-requests"
-            className="p-4 bg-slate-50 hover:bg-emerald-50 rounded-2xl border border-slate-200 hover:border-emerald-300 text-xs font-bold text-slate-800 hover:text-emerald-800 flex items-center justify-between transition-all"
+            className="p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl border border-slate-200 hover:border-blue-300 text-xs font-bold text-slate-800 hover:text-[#02529C] flex items-center justify-between transition-all"
           >
             <span>Assign Help Tickets to Volunteers</span>
-            <ArrowUpRight className="w-4 h-4 text-emerald-600" />
+            <ArrowUpRight className="w-4 h-4 text-[#02529C]" />
           </Link>
         </div>
       </div>
