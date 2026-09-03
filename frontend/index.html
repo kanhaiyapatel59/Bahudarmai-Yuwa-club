@@ -3,16 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/jpeg" href="/byc_logo.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bahudarmai Yuwa Club (BYC) | Youth • Unity • Service • Progress</title>
     
-    <!-- PWA Progressive Web App Metas for Mobile App Installation -->
+    <!-- Metas for Mobile App Display -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#0055A5" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="BYC Club" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="apple-touch-icon" href="/byc_logo.jpg" />
 
     <!-- Google Fonts: Inter & Noto Sans Devanagari -->
@@ -24,13 +23,18 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Register PWA Service Worker for Mobile Home Screen Installation -->
+    <!-- Clean up any stale service workers to prevent MIME type & fetch errors on mobile -->
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((reg) => console.log('BYC PWA Service Worker Registered:', reg.scope))
-            .catch((err) => console.error('BYC PWA Registration Failed:', err));
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (let registration of registrations) {
+            registration.unregister();
+          }
+        });
+      }
+      if (window.caches) {
+        caches.keys().then(function(keys) {
+          keys.forEach(function(key) { caches.delete(key); });
         });
       }
     </script>
