@@ -127,7 +127,7 @@ export const Navbar = () => {
           <div className="flex items-center space-x-2 sm:space-x-3 text-xs font-semibold text-blue-100 shrink-0">
             <span className="font-ne hidden md:inline">📍 बहुदरमाई न.पा.-२, पिपरा (पर्सा)</span>
             <span className="font-mono bg-white/10 px-2 py-0.5 rounded text-[11px] sm:text-xs text-white hidden sm:inline">📞 9767721133</span>
-            <LanguageSwitcher variant="topbar" className="lg:hidden" />
+            <LanguageSwitcher variant="topbar" />
           </div>
         </div>
       </div>
@@ -290,8 +290,13 @@ export const Navbar = () => {
           </nav>
 
           {/* Right Action Controls */}
-          <div className="hidden lg:flex items-center space-x-3 shrink-0">
-            <LanguageSwitcher />
+          <div className="flex items-center space-x-3 shrink-0">
+            <div className="lg:hidden">
+              <LanguageSwitcher />
+            </div>
+
+            <div className="hidden lg:flex items-center space-x-3">
+              <LanguageSwitcher />
 
             <Link
               to="/donate"
@@ -348,6 +353,7 @@ export const Navbar = () => {
             )}
           </div>
         </div>
+      </div>
       </div>
 
       {/* Mobile Drawer Menu */}
