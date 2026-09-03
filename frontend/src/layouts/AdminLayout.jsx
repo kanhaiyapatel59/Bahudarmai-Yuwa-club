@@ -48,24 +48,24 @@ export const AdminLayout = () => {
 
   return (
     <div className="min-h-screen bg-slate-100 flex">
-      {/* Sidebar Desktop - Fixed h-screen & sticky top-0 so Logout is always visible on screen */}
-      <aside className="hidden lg:flex flex-col w-64 bg-slate-950 text-slate-300 border-r border-slate-900 shrink-0 sticky top-0 h-screen">
-        <div className="p-6 border-b border-slate-900 flex items-center space-x-3 shrink-0">
-          <div className="w-10 h-10 rounded-xl bg-[#02529C] flex items-center justify-center font-black text-white text-base shadow-md">
+      {/* Sidebar Desktop - Strictly 100% Fixed Viewport Height with Zero Internal Scroll */}
+      <aside className="hidden lg:flex flex-col w-60 bg-slate-950 text-slate-300 border-r border-slate-900 shrink-0 sticky top-0 h-screen overflow-hidden justify-between">
+        <div className="p-3.5 px-4 border-b border-slate-900 flex items-center space-x-3 shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-[#02529C] flex items-center justify-center font-black text-white text-xs shadow-md">
             BYC
           </div>
           <div>
-            <span className="text-base font-extrabold text-white tracking-tight block">
+            <span className="text-sm font-extrabold text-white tracking-tight block">
               BYC Admin
             </span>
-            <span className="text-[10px] text-blue-400 font-semibold uppercase block">
+            <span className="text-[9px] text-blue-400 font-semibold uppercase block">
               Management Portal
             </span>
           </div>
         </div>
 
-        {/* Scrollable Nav items */}
-        <nav className="flex-1 p-4 space-y-1 overflow-y-auto scrollbar-thin">
+        {/* Compact Nav items - Fits all items statically on screen without scrollbar */}
+        <nav className="flex-1 px-2.5 py-1.5 space-y-0.5 overflow-hidden">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -73,24 +73,24 @@ export const AdminLayout = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center space-x-3 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors ${
+                className={`flex items-center space-x-2.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                   isActive
-                    ? 'bg-[#02529C] text-white shadow-xs'
+                    ? 'bg-[#02529C] text-white font-bold shadow-xs'
                     : 'text-slate-400 hover:bg-slate-900 hover:text-white'
                 }`}
               >
-                <Icon className="w-4 h-4" />
-                <span>{item.name}</span>
+                <Icon className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">{item.name}</span>
               </Link>
             );
           })}
         </nav>
 
         {/* Always Fixed Bottom User & Logout Section */}
-        <div className="p-4 border-t border-slate-900 space-y-3 shrink-0 bg-slate-950">
-          <div className="flex items-center justify-between text-xs px-2 text-slate-400">
-            <span className="truncate max-w-[120px] font-bold text-white">{user?.name || 'BYC Admin'}</span>
-            <span className="text-[10px] uppercase font-bold text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded border border-blue-800">
+        <div className="p-3 border-t border-slate-900 space-y-2 shrink-0 bg-slate-950">
+          <div className="flex items-center justify-between text-xs px-1 text-slate-400">
+            <span className="truncate max-w-[110px] font-bold text-white text-[11px]">{user?.name || 'BYC Admin'}</span>
+            <span className="text-[9px] uppercase font-bold text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded border border-blue-800">
               {user?.role || 'ADMIN'}
             </span>
           </div>
@@ -99,7 +99,7 @@ export const AdminLayout = () => {
               logout();
               navigate('/login');
             }}
-            className="w-full flex items-center justify-center gap-2 py-2 text-xs font-bold text-red-400 bg-red-950/40 hover:bg-red-900/60 border border-red-900/50 rounded-xl transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold text-red-400 bg-red-950/40 hover:bg-red-900/60 border border-red-900/50 rounded-lg transition-colors cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Logout</span>
@@ -110,7 +110,7 @@ export const AdminLayout = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 min-h-screen">
         {/* Admin Topbar */}
-        <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-4 flex items-center justify-between shadow-2xs sticky top-0 z-30">
+        <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-2xs sticky top-0 z-30">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -118,7 +118,7 @@ export const AdminLayout = () => {
             >
               <Menu className="w-6 h-6" />
             </button>
-            <h2 className="text-lg font-bold text-slate-900">
+            <h2 className="text-base sm:text-lg font-bold text-slate-900">
               BYC Executive Management System
             </h2>
           </div>
@@ -127,7 +127,7 @@ export const AdminLayout = () => {
             <LanguageSwitcher />
             <Link
               to="/"
-              className="px-3.5 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+              className="px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
             >
               View Main Website ↗
             </Link>
