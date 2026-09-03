@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import {
@@ -23,6 +24,7 @@ import {
 
 export const Navbar = () => {
   const { t } = useTranslation();
+  const { currentLang } = useLanguage();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -70,7 +72,7 @@ export const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm max-w-full overflow-x-clip">
-      {/* Top Royal Blue Header Bar with Search & Emergency Dispatch */}
+      {/* Top Royal Blue Header Bar with Search & Emergency Contact */}
       <div className="bg-[#0055A5] text-white py-2 px-3 sm:px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-3" ref={searchRef}>
@@ -91,7 +93,7 @@ export const Navbar = () => {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search BYC events, notices..."
+                    placeholder={currentLang === 'ne' ? 'खोज्नुहोस्...' : 'Search BYC events...'}
                     className="w-40 sm:w-64 pl-3 pr-7 py-1 rounded-full bg-white text-slate-900 text-xs font-medium focus:outline-none shadow-inner"
                     autoFocus
                   />
@@ -115,7 +117,9 @@ export const Navbar = () => {
                 title="Search Events & Activities"
               >
                 <Search className="w-5 h-5 text-white" />
-                <span className="hidden sm:inline text-blue-100">Search BYC...</span>
+                <span className="hidden sm:inline text-blue-100">
+                  {currentLang === 'ne' ? 'खोज्नुहोस्...' : 'Search BYC...'}
+                </span>
               </button>
             )}
           </div>
@@ -155,7 +159,7 @@ export const Navbar = () => {
               {t('nav.home')}
             </Link>
 
-            {/* 2. About BYC Dropdown (Includes About, Executive Leadership, Community Help, Achievements) */}
+            {/* 2. About BYC Dropdown */}
             <div
               className="relative py-2"
               onMouseEnter={() => setAboutDropdownOpen(true)}
@@ -175,7 +179,7 @@ export const Navbar = () => {
                       onClick={() => setAboutDropdownOpen(false)}
                     >
                       <Info className="w-4 h-4 text-[#02529C]" />
-                      <span>About Organization</span>
+                      <span>{currentLang === 'ne' ? 'संस्थाको परिचय' : 'About Organization'}</span>
                     </Link>
                     <Link
                       to="/leadership"
@@ -183,7 +187,7 @@ export const Navbar = () => {
                       onClick={() => setAboutDropdownOpen(false)}
                     >
                       <Users className="w-4 h-4 text-[#02529C]" />
-                      <span>Executive Committee</span>
+                      <span>{currentLang === 'ne' ? 'कार्यसमिति विवरण' : 'Executive Committee'}</span>
                     </Link>
                   </div>
 
@@ -194,7 +198,7 @@ export const Navbar = () => {
                       onClick={() => setAboutDropdownOpen(false)}
                     >
                       <HelpCircle className="w-4 h-4 text-[#02529C]" />
-                      <span>Community Help Ticket</span>
+                      <span>{currentLang === 'ne' ? 'सामुदायिक आपतकालीन सहयोग' : 'Community Help Ticket'}</span>
                     </Link>
                     <Link
                       to="/achievements"
@@ -202,7 +206,7 @@ export const Navbar = () => {
                       onClick={() => setAboutDropdownOpen(false)}
                     >
                       <Award className="w-4 h-4 text-amber-600" />
-                      <span>Impact & Achievements</span>
+                      <span>{currentLang === 'ne' ? 'उपलब्धि तथा प्रभाव' : 'Impact & Achievements'}</span>
                     </Link>
                   </div>
                 </div>
@@ -236,14 +240,14 @@ export const Navbar = () => {
               )}
             </div>
 
-            {/* 4. Events & News Dropdown (Includes Events, News & Notices, Photo Gallery) */}
+            {/* 4. Events & News Dropdown */}
             <div
               className="relative py-2"
               onMouseEnter={() => setEventsDropdownOpen(true)}
               onMouseLeave={() => setEventsDropdownOpen(false)}
             >
               <button className="flex items-center space-x-1 hover:text-[#02529C] transition-colors focus:outline-none whitespace-nowrap">
-                <span>Events & News</span>
+                <span>{currentLang === 'ne' ? 'कार्यक्रम तथा समाचार' : 'Events & News'}</span>
                 <ChevronDown className="w-4 h-4 text-slate-400" />
               </button>
 
@@ -255,7 +259,7 @@ export const Navbar = () => {
                     onClick={() => setEventsDropdownOpen(false)}
                   >
                     <Calendar className="w-4 h-4 text-[#02529C]" />
-                    <span>Upcoming Events</span>
+                    <span>{currentLang === 'ne' ? 'आगामी कार्यक्रमहरू' : 'Upcoming Events'}</span>
                   </Link>
                   <Link
                     to="/news"
@@ -263,7 +267,7 @@ export const Navbar = () => {
                     onClick={() => setEventsDropdownOpen(false)}
                   >
                     <FileText className="w-4 h-4 text-[#02529C]" />
-                    <span>News & Official Notices</span>
+                    <span>{currentLang === 'ne' ? 'समाचार तथा सूचनाहरू' : 'News & Official Notices'}</span>
                   </Link>
                   <Link
                     to="/gallery"
@@ -271,7 +275,7 @@ export const Navbar = () => {
                     onClick={() => setEventsDropdownOpen(false)}
                   >
                     <Camera className="w-4 h-4 text-[#02529C]" />
-                    <span>Photo Gallery</span>
+                    <span>{currentLang === 'ne' ? 'फोटो ग्यालरी' : 'Photo Gallery'}</span>
                   </Link>
                 </div>
               )}
@@ -284,7 +288,7 @@ export const Navbar = () => {
             </Link>
           </nav>
 
-          {/* Right Action Controls (Always 100% Visible with Login & Join BYC Buttons!) */}
+          {/* Right Action Controls */}
           <div className="hidden lg:flex items-center space-x-3 shrink-0">
             <LanguageSwitcher />
 
