@@ -149,6 +149,7 @@ export const messageService = {
 export const siteSettingsService = {
   getPublic: () => API.get('/site-settings'),
   updateSettings: (data) => API.put('/site-settings', data),
+  update: (data) => API.put('/site-settings', data),
 };
 
 // Admin Services Alias Mapping

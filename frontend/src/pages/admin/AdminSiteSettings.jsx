@@ -103,7 +103,8 @@ export const AdminSiteSettings = () => {
         setSuccessMsg(true);
       }
     } catch (err) {
-      alert('Failed to save settings');
+      console.error('Save site settings error:', err);
+      alert(err.response?.data?.message || 'Failed to save settings. Please check fields.');
     } finally {
       setSubmitting(false);
     }
