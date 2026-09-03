@@ -11,7 +11,7 @@ export const LanguageSwitcher = ({ variant = 'default', className = '' }) => {
     <div
       className={`inline-flex items-center space-x-1 p-0.5 sm:p-1 rounded-full border transition-colors shrink-0 ${
         isTopbar
-          ? 'bg-white/20 backdrop-blur-xs border-white/30 text-white'
+          ? 'bg-white/20 backdrop-blur-sm border-white/30 text-white'
           : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
       } ${className}`}
     >
@@ -25,7 +25,7 @@ export const LanguageSwitcher = ({ variant = 'default', className = '' }) => {
         onClick={() => changeLanguage('en')}
         className={`px-2 py-0.5 text-[11px] sm:text-xs font-bold rounded-full transition-all duration-200 cursor-pointer ${
           currentLang === 'en'
-            ? 'bg-emerald-600 text-white shadow-xs'
+            ? 'bg-emerald-600 text-white shadow-sm'
             : isTopbar
             ? 'text-white/80 hover:text-white'
             : 'text-slate-600 hover:text-slate-900'
@@ -38,7 +38,7 @@ export const LanguageSwitcher = ({ variant = 'default', className = '' }) => {
         onClick={() => changeLanguage('ne')}
         className={`px-2 py-0.5 text-[11px] sm:text-xs font-bold rounded-full font-ne transition-all duration-200 cursor-pointer ${
           currentLang === 'ne'
-            ? 'bg-emerald-600 text-white shadow-xs'
+            ? 'bg-emerald-600 text-white shadow-sm'
             : isTopbar
             ? 'text-white/80 hover:text-white'
             : 'text-slate-600 hover:text-slate-900'
