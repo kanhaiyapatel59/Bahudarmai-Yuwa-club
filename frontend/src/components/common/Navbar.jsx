@@ -12,6 +12,13 @@ import {
   Shield,
   LogOut,
   Search,
+  Calendar,
+  Info,
+  Users,
+  Award,
+  HelpCircle,
+  FileText,
+  Camera,
 } from 'lucide-react';
 
 export const Navbar = () => {
@@ -20,12 +27,18 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Dropdown States
+  const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const [activitiesDropdownOpen, setActivitiesDropdownOpen] = useState(false);
+  const [eventsDropdownOpen, setEventsDropdownOpen] = useState(false);
+
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const searchRef = useRef(null);
 
+  // Focus Areas Sub-items
   const focusAreas = [
     { name: t('nav.sports'), path: '/activities/sports' },
     { name: t('nav.education'), path: '/activities/education' },
@@ -57,11 +70,11 @@ export const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm max-w-full overflow-x-clip">
-      {/* Top Royal Blue Header Bar with Search & Quick Info */}
+      {/* Top Royal Blue Header Bar with Search & Emergency Dispatch */}
       <div className="bg-[#0055A5] text-white py-2 px-3 sm:px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-3" ref={searchRef}>
-            {/* Unified Hamburger Menu Toggle */}
+            {/* Unified Hamburger Menu Toggle for Mobile */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-1 hover:bg-white/10 rounded-lg transition-colors focus:outline-none shrink-0"
@@ -114,19 +127,19 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-        <div className="flex items-center justify-between h-20 sm:h-24 gap-2 xl:gap-3">
+      {/* Main Streamlined Navigation Bar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20 sm:h-24 gap-4">
           {/* Top Left Corner Logo & Brand Name */}
-          <Link to="/" className="flex items-center space-x-2 sm:space-x-3 shrink-0 group py-1">
-            <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-[#02529C] shadow-sm group-hover:scale-105 transition-transform duration-200 shrink-0 bg-white p-0.5">
+          <Link to="/" className="flex items-center space-x-3 shrink-0 group py-1">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-[#02529C] shadow-sm group-hover:scale-105 transition-transform duration-200 shrink-0 bg-white p-0.5">
               <img src="/byc_logo.jpg" alt="BYC Crest Logo" className="w-full h-full object-contain rounded-full" />
             </div>
             <div className="flex flex-col justify-center">
-              <span className="text-xs sm:text-base font-black tracking-tight text-[#02529C] leading-tight">
+              <span className="text-sm sm:text-base font-black tracking-tight text-[#02529C] leading-tight">
                 Bahudarmai Yuwa Club
               </span>
-              <span className="text-[11px] sm:text-sm font-extrabold text-[#D32F2F] font-ne leading-tight mt-0.5">
+              <span className="text-xs sm:text-sm font-extrabold text-[#D32F2F] font-ne leading-tight mt-0.5">
                 बहुदरमाई युवा क्लब
               </span>
               <span className="text-[9px] font-semibold text-slate-500 uppercase tracking-wider hidden sm:block mt-0.5">
@@ -135,17 +148,68 @@ export const Navbar = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links (Always visible on laptops & desktops) */}
-          <nav className="hidden lg:flex items-center space-x-2.5 xl:space-x-4 text-xs xl:text-sm font-bold text-slate-700 shrink-0">
+          {/* Desktop Streamlined Dropdown Navigation Links */}
+          <nav className="hidden lg:flex items-center space-x-5 lg:space-x-6 text-sm font-bold text-slate-700 shrink-0">
+            {/* 1. Home */}
             <Link to="/" className="hover:text-[#02529C] transition-colors py-2 whitespace-nowrap">
               {t('nav.home')}
             </Link>
 
-            <Link to="/about" className="hover:text-[#02529C] transition-colors py-2 whitespace-nowrap">
-              {t('nav.about')}
-            </Link>
+            {/* 2. About BYC Dropdown (Includes About, Executive Leadership, Community Help, Achievements) */}
+            <div
+              className="relative py-2"
+              onMouseEnter={() => setAboutDropdownOpen(true)}
+              onMouseLeave={() => setAboutDropdownOpen(false)}
+            >
+              <button className="flex items-center space-x-1 hover:text-[#02529C] transition-colors focus:outline-none whitespace-nowrap">
+                <span>{t('nav.about')}</span>
+                <ChevronDown className="w-4 h-4 text-slate-400" />
+              </button>
 
-            {/* Focus Areas Dropdown */}
+              {aboutDropdownOpen && (
+                <div className="absolute top-full left-0 w-60 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-fade-in divide-y divide-slate-100">
+                  <div className="py-1">
+                    <Link
+                      to="/about"
+                      className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50 hover:text-[#02529C] transition-colors"
+                      onClick={() => setAboutDropdownOpen(false)}
+                    >
+                      <Info className="w-4 h-4 text-[#02529C]" />
+                      <span>About Organization</span>
+                    </Link>
+                    <Link
+                      to="/leadership"
+                      className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50 hover:text-[#02529C] transition-colors"
+                      onClick={() => setAboutDropdownOpen(false)}
+                    >
+                      <Users className="w-4 h-4 text-[#02529C]" />
+                      <span>Executive Committee</span>
+                    </Link>
+                  </div>
+
+                  <div className="py-1">
+                    <Link
+                      to="/help"
+                      className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-[#02529C] hover:bg-blue-50 transition-colors"
+                      onClick={() => setAboutDropdownOpen(false)}
+                    >
+                      <HelpCircle className="w-4 h-4 text-[#02529C]" />
+                      <span>Community Help Ticket</span>
+                    </Link>
+                    <Link
+                      to="/achievements"
+                      className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50 hover:text-[#02529C] transition-colors"
+                      onClick={() => setAboutDropdownOpen(false)}
+                    >
+                      <Award className="w-4 h-4 text-amber-600" />
+                      <span>Impact & Achievements</span>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 3. Focus Areas Dropdown */}
             <div
               className="relative py-2"
               onMouseEnter={() => setActivitiesDropdownOpen(true)}
@@ -153,11 +217,11 @@ export const Navbar = () => {
             >
               <button className="flex items-center space-x-1 hover:text-[#02529C] transition-colors focus:outline-none whitespace-nowrap">
                 <span>{t('nav.activities')}</span>
-                <ChevronDown className="w-3.5 h-3.5" />
+                <ChevronDown className="w-4 h-4 text-slate-400" />
               </button>
 
               {activitiesDropdownOpen && (
-                <div className="absolute top-full left-0 w-52 bg-white border border-slate-200 rounded-xl shadow-xl py-2 z-50 animate-fade-in">
+                <div className="absolute top-full left-0 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-fade-in">
                   {focusAreas.map((area, idx) => (
                     <Link
                       key={idx}
@@ -172,39 +236,61 @@ export const Navbar = () => {
               )}
             </div>
 
-            <Link to="/events" className="hover:text-[#02529C] transition-colors py-2 whitespace-nowrap">
-              {t('nav.events')}
-            </Link>
+            {/* 4. Events & News Dropdown (Includes Events, News & Notices, Photo Gallery) */}
+            <div
+              className="relative py-2"
+              onMouseEnter={() => setEventsDropdownOpen(true)}
+              onMouseLeave={() => setEventsDropdownOpen(false)}
+            >
+              <button className="flex items-center space-x-1 hover:text-[#02529C] transition-colors focus:outline-none whitespace-nowrap">
+                <span>Events & News</span>
+                <ChevronDown className="w-4 h-4 text-slate-400" />
+              </button>
 
-            <Link to="/news" className="hover:text-[#02529C] transition-colors py-2 whitespace-nowrap">
-              {t('nav.news')}
-            </Link>
+              {eventsDropdownOpen && (
+                <div className="absolute top-full left-0 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-fade-in">
+                  <Link
+                    to="/events"
+                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50 hover:text-[#02529C] transition-colors"
+                    onClick={() => setEventsDropdownOpen(false)}
+                  >
+                    <Calendar className="w-4 h-4 text-[#02529C]" />
+                    <span>Upcoming Events</span>
+                  </Link>
+                  <Link
+                    to="/news"
+                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50 hover:text-[#02529C] transition-colors"
+                    onClick={() => setEventsDropdownOpen(false)}
+                  >
+                    <FileText className="w-4 h-4 text-[#02529C]" />
+                    <span>News & Official Notices</span>
+                  </Link>
+                  <Link
+                    to="/gallery"
+                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50 hover:text-[#02529C] transition-colors"
+                    onClick={() => setEventsDropdownOpen(false)}
+                  >
+                    <Camera className="w-4 h-4 text-[#02529C]" />
+                    <span>Photo Gallery</span>
+                  </Link>
+                </div>
+              )}
+            </div>
 
-            <Link to="/gallery" className="hover:text-[#02529C] transition-colors py-2 whitespace-nowrap">
-              {t('nav.gallery')}
-            </Link>
-
-            <Link to="/leadership" className="hover:text-[#02529C] transition-colors py-2 whitespace-nowrap">
-              {t('nav.leadership')}
-            </Link>
-
+            {/* 5. Blood Donors */}
             <Link to="/blood-donation" className="hover:text-[#D32F2F] transition-colors py-2 flex items-center gap-1 font-bold text-[#D32F2F] whitespace-nowrap">
-              <Heart className="w-3.5 h-3.5 fill-[#D32F2F] text-[#D32F2F]" />
+              <Heart className="w-4 h-4 fill-[#D32F2F] text-[#D32F2F]" />
               {t('nav.blood')}
-            </Link>
-
-            <Link to="/help" className="hover:text-[#02529C] transition-colors py-2 font-bold text-[#02529C] whitespace-nowrap">
-              {t('nav.help')}
             </Link>
           </nav>
 
-          {/* Right Action Controls (Donate + Auth) */}
-          <div className="flex items-center space-x-2 shrink-0">
+          {/* Right Action Controls (Always 100% Visible with Login & Join BYC Buttons!) */}
+          <div className="hidden lg:flex items-center space-x-3 shrink-0">
             <LanguageSwitcher />
 
             <Link
               to="/donate"
-              className="px-3 py-1.5 text-xs font-bold text-[#D32F2F] bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors whitespace-nowrap"
+              className="px-3.5 py-2 text-xs font-bold text-[#D32F2F] bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl transition-colors whitespace-nowrap"
             >
               {t('nav.donate')}
             </Link>
@@ -216,17 +302,17 @@ export const Navbar = () => {
                 ) ? (
                   <Link
                     to="/admin"
-                    className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-white bg-[#02529C] hover:bg-[#013F7A] rounded-lg shadow-sm transition-all whitespace-nowrap"
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#02529C] hover:bg-[#013F7A] rounded-xl shadow-sm transition-all whitespace-nowrap"
                   >
-                    <Shield className="w-3.5 h-3.5" />
+                    <Shield className="w-4 h-4" />
                     {t('nav.admin')}
                   </Link>
                 ) : (
                   <Link
                     to="/member"
-                    className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-white bg-[#02529C] hover:bg-[#013F7A] rounded-lg shadow-sm transition-all whitespace-nowrap"
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#02529C] hover:bg-[#013F7A] rounded-xl shadow-sm transition-all whitespace-nowrap"
                   >
-                    <User className="w-3.5 h-3.5" />
+                    <User className="w-4 h-4" />
                     {t('nav.dashboard')}
                   </Link>
                 )}
@@ -234,22 +320,22 @@ export const Navbar = () => {
                 <button
                   onClick={logout}
                   title="Logout"
-                  className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-slate-100 rounded-lg transition-colors"
+                  className="p-2 text-slate-500 hover:text-red-600 hover:bg-slate-100 rounded-xl transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
               </div>
             ) : (
-              <div className="hidden sm:flex items-center space-x-2 shrink-0">
+              <div className="flex items-center space-x-2 shrink-0">
                 <Link
                   to="/login"
-                  className="px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:text-[#02529C] hover:bg-slate-100 rounded-lg transition-colors whitespace-nowrap"
+                  className="px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-[#02529C] hover:bg-slate-100 rounded-xl transition-colors whitespace-nowrap"
                 >
                   {t('nav.login')}
                 </Link>
                 <Link
                   to="/join"
-                  className="px-3 py-1.5 text-xs font-bold text-white bg-[#02529C] hover:bg-[#013F7A] rounded-lg shadow-sm hover:shadow transition-all whitespace-nowrap"
+                  className="px-4 py-2 text-xs font-bold text-white bg-[#02529C] hover:bg-[#013F7A] rounded-xl shadow-sm hover:shadow transition-all whitespace-nowrap"
                 >
                   {t('nav.join')}
                 </Link>
