@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
@@ -24,6 +24,8 @@ export const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const searchRef = useRef(null);
+
   const focusAreas = [
     { name: t('nav.sports'), path: '/activities/sports' },
     { name: t('nav.education'), path: '/activities/education' },
@@ -32,6 +34,17 @@ export const Navbar = () => {
     { name: t('nav.youth'), path: '/activities/youth-development' },
     { name: t('nav.culture'), path: '/activities/culture' },
   ];
+
+  // Auto-dismiss search form when clicking outside anywhere on screen
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -44,50 +57,60 @@ export const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm max-w-full overflow-x-clip">
-      {/* Top Royal Blue Header Bar matching reference image (Menu + Search icons) */}
+      {/* Top Royal Blue Header Bar with Inline Expanding Search */}
       <div className="bg-[#0055A5] text-white py-2 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-5">
+          <div className="flex items-center space-x-4" ref={searchRef}>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1 hover:bg-white/10 rounded-lg transition-colors focus:outline-none"
+              className="p-1 hover:bg-white/10 rounded-lg transition-colors focus:outline-none shrink-0"
               title="Toggle Menu"
             >
               <Menu className="w-6 h-6 text-white" />
             </button>
 
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="p-1 hover:bg-white/10 rounded-lg transition-colors focus:outline-none flex items-center gap-1.5 text-xs font-semibold"
-              title="Search Events & Activities"
-            >
-              <Search className="w-5 h-5 text-white" />
-              <span className="hidden sm:inline text-blue-100">Search BYC...</span>
-            </button>
+            {/* Inline Search: Expands right here in the top bar without creating a new line */}
+            {searchOpen ? (
+              <form onSubmit={handleSearchSubmit} className="flex items-center gap-1.5 animate-fade-in shrink-0">
+                <div className="relative flex items-center">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search BYC events, notices..."
+                    className="w-44 sm:w-64 pl-3 pr-7 py-1 rounded-full bg-white text-slate-900 text-xs font-medium focus:outline-none shadow-inner"
+                    autoFocus
+                  />
+                  <button type="submit" className="absolute right-2 text-slate-500 hover:text-emerald-700">
+                    <Search className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  className="p-1 text-blue-200 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+                  title="Close Search"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </form>
+            ) : (
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="p-1 hover:bg-white/10 rounded-lg transition-colors focus:outline-none flex items-center gap-1.5 text-xs font-semibold shrink-0"
+                title="Search Events & Activities"
+              >
+                <Search className="w-5 h-5 text-white" />
+                <span className="hidden sm:inline text-blue-100">Search BYC...</span>
+              </button>
+            )}
           </div>
 
-          <div className="flex items-center space-x-4 text-xs font-semibold text-blue-100">
+          <div className="flex items-center space-x-4 text-xs font-semibold text-blue-100 shrink-0">
             <span className="font-ne hidden sm:inline">📍 बहुदरमाई न.पा.-२, पिपरा (पर्सा)</span>
             <span className="font-mono bg-white/10 px-2.5 py-1 rounded-md text-white">📞 9767721133</span>
           </div>
         </div>
-
-        {/* Collapsible Search Input */}
-        {searchOpen && (
-          <form onSubmit={handleSearchSubmit} className="max-w-7xl mx-auto mt-2 pt-2 border-t border-blue-400/30 flex gap-2 animate-fade-in">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search events, news, notices, blood donors..."
-              className="w-full px-3 py-1.5 rounded-lg bg-white text-slate-900 text-xs focus:outline-none font-medium"
-              autoFocus
-            />
-            <button type="submit" className="px-4 py-1.5 bg-[#D32F2F] text-white font-bold text-xs rounded-lg shrink-0">
-              Search
-            </button>
-          </form>
-        )}
       </div>
 
       {/* Main Navigation Bar */}
