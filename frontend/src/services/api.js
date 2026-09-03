@@ -1,7 +1,18 @@
 import axios from 'axios';
 
+// Auto-detect production API URL when deployed on Vercel or accessed via mobile
+const getBaseURL = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://bahudarmai-yuwa-club-api.onrender.com/api/v1';
+  }
+  return 'http://localhost:5001/api/v1';
+};
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1',
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },
@@ -24,118 +35,117 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Clear invalid token
       localStorage.removeItem('byc_token');
     }
     return Promise.reject(error);
   }
 );
 
-// Auth Service
+// Auth Services
 export const authService = {
-  login: (data) => API.post('/auth/login', data),
-  register: (data) => API.post('/auth/register', data),
+  login: (credentials) => API.post('/auth/login', credentials),
+  register: (userData) => API.post('/auth/register', userData),
   getMe: () => API.get('/auth/me'),
-  updateLanguage: (lang) => API.put('/auth/language', { lang }),
+  updateProfile: (data) => API.put('/auth/profile', data),
+  changePassword: (data) => API.put('/auth/change-password', data),
 };
 
-// Member Service
 export const memberService = {
   apply: (data) => API.post('/members/apply', data),
-  getMyStatus: () => API.get('/members/my-status'),
-  getAll: (params) => API.get('/members', { params }),
-  updateStatus: (id, data) => API.put(`/members/${id}/status`, data),
+  getProfile: () => API.get('/members/profile'),
 };
 
-// Volunteer Service
-export const volunteerService = {
-  apply: (data) => API.post('/volunteers/apply', data),
-  getAll: (params) => API.get('/volunteers', { params }),
-  updateStatus: (id, data) => API.put(`/volunteers/${id}/status`, data),
-};
-
-// Event Service
+// Events Services
 export const eventService = {
   getEvents: (params) => API.get('/events', { params }),
   getBySlug: (slug) => API.get(`/events/${slug}`),
-  register: (data) => API.post('/events/register', data),
   create: (data) => API.post('/events', data),
   update: (id, data) => API.put(`/events/${id}`, data),
   delete: (id) => API.delete(`/events/${id}`),
-  getParticipants: (eventId) => API.get(`/events/${eventId}/participants`),
 };
 
-// News and Notice Service
-export const newsNoticeService = {
-  getAll: (params) => API.get('/news-notices', { params }),
-  getAllAdmin: (params) => API.get('/news-notices/admin', { params }),
-  getBySlug: (slug) => API.get(`/news-notices/${slug}`),
-  create: (data) => API.post('/news-notices', data),
-  update: (id, data) => API.put(`/news-notices/${id}`, data),
-  delete: (id) => API.delete(`/news-notices/${id}`),
+// News & Notices Services
+export const articleService = {
+  getAll: (params) => API.get('/news', { params }),
+  getBySlug: (slug) => API.get(`/news/${slug}`),
+  create: (data) => API.post('/news', data),
+  update: (id, data) => API.put(`/news/${id}`, data),
+  delete: (id) => API.delete(`/news/${id}`),
+};
+export const newsNoticeService = articleService;
+
+// Gallery Services
+export const galleryService = {
+  getAll: (params) => API.get('/gallery', { params }),
+  create: (data) => API.post('/gallery', data),
+  delete: (id) => API.delete(`/gallery/${id}`),
 };
 
-// Blood Donor Service
-export const bloodDonorService = {
-  search: (params) => API.get('/blood-donors/search', { params }),
-  register: (data) => API.post('/blood-donors/register', data),
-  requestContact: (data) => API.post('/blood-donors/request-contact', data),
-  getAllAdmin: (params) => API.get('/blood-donors/admin', { params }),
-  updateAvailability: (id, isAvailable) => API.put(`/blood-donors/${id}/availability`, { isAvailable }),
-};
-
-// Community Help Request Service
-export const helpService = {
-  requestHelp: (data) => API.post('/help-requests/request', data),
-  trackTicket: (ticketNo) => API.get(`/help-requests/track/${ticketNo}`),
-  getAllAdmin: (params) => API.get('/help-requests/admin', { params }),
-  updateStatus: (id, data) => API.put(`/help-requests/${id}/status`, data),
-};
-
-// Donation Service
-export const donationService = {
-  record: (data) => API.post('/donations/record', data),
-  getStats: () => API.get('/donations/stats'),
-  getAllAdmin: (params) => API.get('/donations/admin', { params }),
-  updateStatus: (id, data) => API.put(`/donations/${id}/status`, data),
-};
-
-// Leadership Service
+// Leadership / Executive Committee Services
 export const leadershipService = {
-  getAll: () => API.get('/leadership'),
+  getAll: (params) => API.get('/leadership', { params }),
   create: (data) => API.post('/leadership', data),
   update: (id, data) => API.put(`/leadership/${id}`, data),
   delete: (id) => API.delete(`/leadership/${id}`),
 };
 
-// Achievement Service
+// Achievements Services
 export const achievementService = {
   getAll: () => API.get('/achievements'),
   create: (data) => API.post('/achievements', data),
-  update: (id, data) => API.put(`/achievements/${id}`, data),
   delete: (id) => API.delete(`/achievements/${id}`),
 };
 
-// Gallery Service
-export const galleryService = {
-  getAll: (params) => API.get('/gallery', { params }),
-  getById: (id) => API.get(`/gallery/${id}`),
-  create: (data) => API.post('/gallery', data),
-  update: (id, data) => API.put(`/gallery/${id}`, data),
-  delete: (id) => API.delete(`/gallery/${id}`),
+// Blood Donors Services
+export const bloodDonorService = {
+  search: (params) => API.get('/blood-donors', { params }),
+  register: (data) => API.post('/blood-donors/register', data),
+  requestContact: (data) => API.post('/blood-donors/request-contact', data),
 };
 
-// Contact Service
+// Community Help Request Services
+export const helpService = {
+  requestHelp: (data) => API.post('/help', data),
+  trackTicket: (ticketNo) => API.get(`/help/track/${ticketNo}`),
+};
+
+// Donations Services
+export const donationService = {
+  initiate: (data) => API.post('/donations/initiate', data),
+  verifyPayment: (data) => API.post('/donations/verify', data),
+  recordBankTransfer: (data) => API.post('/donations/bank-transfer', data),
+};
+
+// Contact & Volunteer Services
+export const messageService = {
+  sendContact: (data) => API.post('/contact', data),
+  registerVolunteer: (data) => API.post('/volunteer/register', data),
+};
 export const contactService = {
-  sendMessage: (data) => API.post('/contact/send', data),
-  getAllAdmin: (params) => API.get('/contact/admin', { params }),
-  markRead: (id) => API.put(`/contact/${id}/read`),
+  sendMessage: (data) => API.post('/contact', data),
+};
+export const volunteerService = {
+  register: (data) => API.post('/volunteer/register', data),
 };
 
-// Site Settings Service
+// Site Settings Services
 export const siteSettingsService = {
-  getPublic: () => API.get('/site-settings/public'),
-  update: (data) => API.put('/site-settings', data),
+  getPublic: () => API.get('/site-settings'),
+  updateSettings: (data) => API.put('/site-settings', data),
+};
+
+// Admin Services
+export const adminService = {
+  getOverviewStats: () => API.get('/admin/overview'),
+  getMembers: (params) => API.get('/admin/members', { params }),
+  updateMemberRole: (id, role) => API.put(`/admin/members/${id}/role`, { role }),
+  getVolunteers: (params) => API.get('/admin/volunteers', { params }),
+  updateVolunteerStatus: (id, status) => API.put(`/admin/volunteers/${id}/status`, { status }),
+  getHelpRequests: (params) => API.get('/admin/help-requests', { params }),
+  updateHelpStatus: (id, data) => API.put(`/admin/help-requests/${id}`, data),
+  getDonations: (params) => API.get('/admin/donations', { params }),
+  verifyDonation: (id, status) => API.put(`/admin/donations/${id}/verify`, { status }),
+  getMessages: (params) => API.get('/admin/messages', { params }),
 };
 
 export default API;
