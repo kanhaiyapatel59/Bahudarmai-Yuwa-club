@@ -18,33 +18,30 @@ export const getSiteSettings = async (req, res, next) => {
       });
     }
 
-    // Compute REAL dynamic counts directly from MongoDB database
+    // Compute real dynamic counts from database
     const [
       realMembersCount,
       realEventsCount,
       realHelpRequestsCount,
       realBloodDonorsCount,
-      realRegistrationsCount,
     ] = await Promise.all([
       Member.countDocuments(),
       Event.countDocuments(),
       HelpRequest.countDocuments(),
       BloodDonor.countDocuments(),
-      EventRegistration.countDocuments(),
     ]);
 
-    // Combined real people supported count
     const calculatedPeopleReached = (realMembersCount * 12) + (realEventsCount * 25) + (realHelpRequestsCount * 15) + (realBloodDonorsCount * 20);
 
-    const realStats = {
-      youthMembers: realMembersCount,
-      communityEvents: realEventsCount,
-      socialInitiatives: realHelpRequestsCount,
-      peopleReached: calculatedPeopleReached > 0 ? calculatedPeopleReached : realMembersCount * 10,
-    };
-
     const settingsObj = settings.toObject();
-    settingsObj.stats = realStats;
+
+    // Respect user's saved admin site settings if configured, otherwise use real counts
+    settingsObj.stats = {
+      youthMembers: settings.stats?.youthMembers !== undefined ? settings.stats.youthMembers : realMembersCount,
+      communityEvents: settings.stats?.communityEvents !== undefined ? settings.stats.communityEvents : realEventsCount,
+      socialInitiatives: settings.stats?.socialInitiatives !== undefined ? settings.stats.socialInitiatives : realHelpRequestsCount,
+      peopleReached: settings.stats?.peopleReached !== undefined ? settings.stats.peopleReached : calculatedPeopleReached,
+    };
 
     res.json({ success: true, settings: settingsObj });
   } catch (error) {
