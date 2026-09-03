@@ -48,23 +48,24 @@ export const AdminLayout = () => {
 
   return (
     <div className="min-h-screen bg-slate-100 flex">
-      {/* Sidebar Desktop */}
-      <aside className="hidden lg:flex flex-col w-64 bg-slate-950 text-slate-300 border-r border-slate-900 shrink-0">
-        <div className="p-6 border-b border-slate-900 flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center font-black text-white text-base shadow-md">
+      {/* Sidebar Desktop - Fixed h-screen & sticky top-0 so Logout is always visible on screen */}
+      <aside className="hidden lg:flex flex-col w-64 bg-slate-950 text-slate-300 border-r border-slate-900 shrink-0 sticky top-0 h-screen">
+        <div className="p-6 border-b border-slate-900 flex items-center space-x-3 shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-[#02529C] flex items-center justify-center font-black text-white text-base shadow-md">
             BYC
           </div>
           <div>
             <span className="text-base font-extrabold text-white tracking-tight block">
               BYC Admin
             </span>
-            <span className="text-[10px] text-emerald-400 font-semibold uppercase block">
+            <span className="text-[10px] text-blue-400 font-semibold uppercase block">
               Management Portal
             </span>
           </div>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        {/* Scrollable Nav items */}
+        <nav className="flex-1 p-4 space-y-1 overflow-y-auto scrollbar-thin">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -74,7 +75,7 @@ export const AdminLayout = () => {
                 to={item.path}
                 className={`flex items-center space-x-3 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors ${
                   isActive
-                    ? 'bg-emerald-700 text-white shadow-xs'
+                    ? 'bg-[#02529C] text-white shadow-xs'
                     : 'text-slate-400 hover:bg-slate-900 hover:text-white'
                 }`}
               >
@@ -85,11 +86,12 @@ export const AdminLayout = () => {
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-900 space-y-3">
+        {/* Always Fixed Bottom User & Logout Section */}
+        <div className="p-4 border-t border-slate-900 space-y-3 shrink-0 bg-slate-950">
           <div className="flex items-center justify-between text-xs px-2 text-slate-400">
-            <span className="truncate max-w-[120px] font-bold text-white">{user?.name}</span>
-            <span className="text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950 px-1.5 py-0.5 rounded border border-emerald-800">
-              {user?.role}
+            <span className="truncate max-w-[120px] font-bold text-white">{user?.name || 'BYC Admin'}</span>
+            <span className="text-[10px] uppercase font-bold text-blue-400 bg-blue-950 px-1.5 py-0.5 rounded border border-blue-800">
+              {user?.role || 'ADMIN'}
             </span>
           </div>
           <button
@@ -97,7 +99,7 @@ export const AdminLayout = () => {
               logout();
               navigate('/login');
             }}
-            className="w-full flex items-center justify-center gap-2 py-2 text-xs font-bold text-red-400 bg-red-950/40 hover:bg-red-900/60 border border-red-900/50 rounded-xl transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-2 text-xs font-bold text-red-400 bg-red-950/40 hover:bg-red-900/60 border border-red-900/50 rounded-xl transition-colors cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Logout</span>
@@ -106,9 +108,9 @@ export const AdminLayout = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
         {/* Admin Topbar */}
-        <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-4 flex items-center justify-between shadow-2xs">
+        <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-4 flex items-center justify-between shadow-2xs sticky top-0 z-30">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -135,7 +137,7 @@ export const AdminLayout = () => {
         {/* Mobile Drawer */}
         {sidebarOpen && (
           <div className="lg:hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex">
-            <div className="w-64 bg-slate-950 text-white p-6 space-y-4 flex flex-col justify-between">
+            <div className="w-64 bg-slate-950 text-white p-6 space-y-4 flex flex-col justify-between h-full overflow-y-auto">
               <div className="space-y-4">
                 <div className="flex justify-between items-center border-b border-slate-800 pb-3">
                   <span className="font-bold text-sm">BYC Admin Navigation</span>
@@ -143,7 +145,7 @@ export const AdminLayout = () => {
                     <X className="w-6 h-6" />
                   </button>
                 </div>
-                <nav className="space-y-1 max-h-[70vh] overflow-y-auto">
+                <nav className="space-y-1">
                   {navItems.map((item) => (
                     <Link
                       key={item.path}
@@ -156,12 +158,26 @@ export const AdminLayout = () => {
                   ))}
                 </nav>
               </div>
+
+              <div className="pt-4 border-t border-slate-800 space-y-3">
+                <button
+                  onClick={() => {
+                    setSidebarOpen(false);
+                    logout();
+                    navigate('/login');
+                  }}
+                  className="w-full flex items-center justify-center gap-2 py-2 text-xs font-bold text-red-400 bg-red-950/40 rounded-xl"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Logout</span>
+                </button>
+              </div>
             </div>
           </div>
         )}
 
         {/* Content Outlet */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">
           <Outlet />
         </main>
       </div>

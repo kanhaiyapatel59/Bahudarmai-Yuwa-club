@@ -44,31 +44,35 @@ export const runSeedData = async (req, res, next) => {
       languagePreference: 'ne',
     });
 
-    // 2. Create Members
-    const approvedMember = await Member.create({
-      user: memberUser._id,
-      memberCode: 'BYC-2080-0001',
-      fullName: 'Rohan Shrestha',
-      dob: new Date('1998-05-14'),
-      gender: 'male',
+    // 3. Official Leadership & Member Data
+    const executiveNames = [
+      'Ajay Yadav', 'Sanju Thakur', 'Ramnath Paswan', 'Ajay Shah',
+      'Sukesh Patel', 'Anil Ku. Yadav', 'Pradip Yadav', 'Lalbabu Patel',
+      'Chhotelal Yadav', 'Sunita Yadav', 'Sailesh Yadav', 'Ajay Pr. Shah',
+      'Mandip Yadav', 'Sachin Gupta', 'Amit Patel', 'Suman Patel',
+      'Mannu Patel', 'Anil Yadav', 'Mithilesh Chaubey', 'Vishal Patel',
+      'Hiramati Yadav', 'Niraj Pr. Patel', 'Prabhat Sah Teli', 'Roshan Pr. Patel',
+      'Keshu Gupta', 'Vikas Ku. Patel', 'Dipesh Ku. Yadav', 'Ripu Kumar',
+      'Pappu Yadav', 'Ranjit Shah', 'Rambabu Gupta', 'Neha Ku. Singh'
+    ];
+
+    // Seed Member Collection for Admin Members Page
+    const memberDocs = executiveNames.map((name, idx) => ({
+      memberCode: `BYC-2080-${String(idx + 1).padStart(4, '0')}`,
+      fullName: name,
       phone: '9767721133',
-      email: 'rohan@example.com',
+      email: `${name.toLowerCase().replace(/[^a-z]/g, '')}@byc.org.np`,
       address: 'Bahudarmai Ward 2, Pipra',
       wardNumber: 2,
-      occupation: 'IT Professional',
-      education: 'Bachelor in CS',
-      skills: ['Web Design', 'Event Organizing', 'First Aid'],
-      interests: ['Sports', 'Technology', 'Social Work'],
-      emergencyContact: { name: 'Hari Shrestha', phone: '9811111111', relation: 'Father' },
+      occupation: 'Executive Member',
       status: 'approved',
       idCardIssued: true,
       approvedAt: new Date(),
-    });
+    }));
 
-    memberUser.memberId = approvedMember._id;
-    await memberUser.save();
+    await Member.insertMany(memberDocs);
 
-    // 3. Official Leadership Members (From BYC Committee Poster)
+    // Seed Leadership Collection
     const officialLeaders = [
       { name: { en: 'Dhananjay Patel', ne: 'धनञ्जय पटेल' }, position: { en: 'President', ne: 'अध्यक्ष' }, roleCategory: 'executive', order: 1, phone: '9767721133', photo: '/byc_committee_banner.jpg', shortBio: { en: 'Club President leading BYC youth activities in Pipra, Parsa.', ne: 'बहुदरमाई युवा क्लब अध्यक्ष, पिपरा (पर्सा)।' } },
       { name: { en: 'Pooja Yadav', ne: 'पूजा यादव' }, position: { en: 'Vice President', ne: 'उपाध्यक्ष' }, roleCategory: 'executive', order: 2, phone: '9767721133', photo: '/byc_committee_banner.jpg', shortBio: { en: 'Vice President driving youth & women empowerment initiatives.', ne: 'बहुदरमाई युवा क्लब उपाध्यक्ष।' } },
@@ -76,39 +80,14 @@ export const runSeedData = async (req, res, next) => {
       { name: { en: 'Aman Patel', ne: 'अमन पटेल' }, position: { en: 'Joint Secretary', ne: 'सह-सचिव' }, roleCategory: 'executive', order: 4, phone: '9767721133', photo: '/byc_committee_banner.jpg', shortBio: { en: 'Joint Secretary coordinating committee events.', ne: 'बहुदरमाई युवा क्लब सह-सचिव।' } },
       { name: { en: 'Arjun Gupta', ne: 'अर्जुन गुप्ता' }, position: { en: 'Treasurer', ne: 'कोषाध्यक्ष' }, roleCategory: 'executive', order: 5, phone: '9767721133', photo: '/byc_committee_banner.jpg', shortBio: { en: 'Club Treasurer managing financial transparency & donations.', ne: 'बहुदरमाई युवा क्लब कोषाध्यक्ष।' } },
       { name: { en: 'Baliram Patel', ne: 'बलिराम पटेल' }, position: { en: 'Coordinator', ne: 'संयोजक' }, roleCategory: 'coordinator', order: 6, phone: '9767721133', photo: '/byc_committee_banner.jpg', shortBio: { en: 'Event Coordinator supervising field activities.', ne: 'बहुदरमाई युवा क्लब संयोजक।' } },
-      // Executive Members
-      { name: { en: 'Ajay Yadav', ne: 'अजय यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 7 },
-      { name: { en: 'Sanju Thakur', ne: 'संजू ठाकुर' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 8 },
-      { name: { en: 'Ramnath Paswan', ne: 'रामनाथ पासवान' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 9 },
-      { name: { en: 'Ajay Shah', ne: 'अजय शाह' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 10 },
-      { name: { en: 'Sukesh Patel', ne: 'सुकेश पटेल' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 11 },
-      { name: { en: 'Anil Ku. Yadav', ne: 'अनिल कु. यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 12 },
-      { name: { en: 'Pradip Yadav', ne: 'प्रदिप यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 13 },
-      { name: { en: 'Lalbabu Patel', ne: 'लालबाबु पटेल' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 14 },
-      { name: { en: 'Chhotelal Yadav', ne: 'छोटेलाल यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 15 },
-      { name: { en: 'Sunita Yadav', ne: 'सुनिता यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 16 },
-      { name: { en: 'Sailesh Yadav', ne: 'शैलेश यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 17 },
-      { name: { en: 'Ajay Pr. Shah', ne: 'अजय प्र. शाह' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 18 },
-      { name: { en: 'Mandip Yadav', ne: 'मन्दिप यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 19 },
-      { name: { en: 'Sachin Gupta', ne: 'सचिन गुप्ता' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 20 },
-      { name: { en: 'Amit Patel', ne: 'अमित पटेल' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 21 },
-      { name: { en: 'Suman Patel', ne: 'सुमन पटेल' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 22 },
-      { name: { en: 'Mannu Patel', ne: 'मन्नु पटेल' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 23 },
-      { name: { en: 'Anil Yadav', ne: 'अनिल यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 24 },
-      { name: { en: 'Mithilesh Chaubey', ne: 'मिथलेश चौबे' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 25 },
-      { name: { en: 'Vishal Patel', ne: 'विशाल पटेल' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 26 },
-      { name: { en: 'Hiramati Yadav', ne: 'हिरामती यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 27 },
-      { name: { en: 'Niraj Pr. Patel', ne: 'निरज प्र. पटेल' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 28 },
-      { name: { en: 'Prabhat Sah Teli', ne: 'प्रभात साह तेली' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 29 },
-      { name: { en: 'Roshan Pr. Patel', ne: 'रोशन प्र. पटेल' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 30 },
-      { name: { en: 'Keshu Gupta', ne: 'केशु गुप्ता' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 31 },
-      { name: { en: 'Vikas Ku. Patel', ne: 'विकास कु. पटेल' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 32 },
-      { name: { en: 'Dipesh Ku. Yadav', ne: 'दिपेश कु. यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 33 },
-      { name: { en: 'Ripu Kumar', ne: 'रिपु कुमार' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 34 },
-      { name: { en: 'Pappu Yadav', ne: 'पप्पु यादव' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 35 },
-      { name: { en: 'Ranjit Shah', ne: 'रंजित शाह' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 36 },
-      { name: { en: 'Rambabu Gupta', ne: 'रामबाबु गुप्ता' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 37 },
-      { name: { en: 'Neha Ku. Singh', ne: 'नेहा कु. सिंह' }, position: { en: 'Executive Member', ne: 'सदस्य' }, roleCategory: 'executive', order: 38 },
+      ...executiveNames.map((name, i) => ({
+        name: { en: name, ne: name },
+        position: { en: 'Executive Member', ne: 'कार्यसमिति सदस्य' },
+        roleCategory: 'executive',
+        order: 7 + i,
+        phone: '9767721133',
+        photo: '/byc_committee_banner.jpg',
+      })),
     ];
 
     await Leadership.insertMany(officialLeaders);
@@ -130,52 +109,11 @@ export const runSeedData = async (req, res, next) => {
       contactPhone: '9767721133',
     });
 
-    await Event.create({
-      slug: 'byc-annual-football-tournament-2026',
-      title: { en: 'BYC Annual Youth Football Cup 2026', ne: 'बहुदरमाई युवा क्लब वार्षिक फुटबल प्रतियोगिता २०२६' },
-      description: { en: 'Inter-ward championship empowering young sports talent with trophy prizes and scout matches.', ne: 'वडास्तरीय युवा फुटबल प्रतियोगिता, ट्रफी पुरस्कार तथा खेलकुद प्रतिभा प्रवर्द्धन।' },
-      category: 'sports',
-      bannerImage: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&q=80',
-      startDate: new Date('2026-10-15'),
-      endDate: new Date('2026-10-18'),
-      location: { en: 'Bahudarmai Pipra School Ground, Ward 2', ne: 'बहुदरमाई पिपरा खेल मैदान, वडा नं. २' },
-      organizer: { en: 'BYC Sports Department', ne: 'बहुदरमाई युवा क्लब खेलकुद विभाग' },
-      status: 'upcoming',
-      isRegistrationRequired: true,
-      maxParticipants: 16,
-      contactPhone: '9767721133',
-    });
-
-    // 5. News & Notices
-    await NewsNotice.create({
-      type: 'notice',
-      slug: 'official-welcome-bahudarmai-mela',
-      title: { en: 'Hearty Welcome to All Devotees at Shree Bahudarmai Mela', ne: 'ऐतिहासिक एवम् पौराणिक ५ दिवसीय श्री बहुदरमाई मेला मा पाल्नुहुने सम्पूर्ण श्रद्धालु भक्तजनहरूलाई हार्दिक स्वागत गर्दछौं।' },
-      content: { en: 'Bahudarmai Yuwa Club Pipra (Parsa) extends a warm welcome to all devotees participating in the historic 5-day Shree Bahudarmai Mela.', ne: 'बहुदरमाई युवा क्लब पिपरा (पर्सा) द्वारा आयोजित ५ दिवसीय ऐतिहासिक एवम् पौराणिक मेलामा सम्पूर्ण महानुभावहरूलाई हार्दिक स्वागत गर्दछौं।' },
-      category: 'Festival Notice',
-      featuredImage: '/byc_committee_banner.jpg',
-      author: 'Dhananjay Patel (President)',
-      isPublished: true,
-      publishedAt: new Date(),
-    });
-
-    // 6. Blood Donors
-    await BloodDonor.create({
-      fullName: 'Bibek Shah',
-      bloodGroup: 'O+',
-      wardNumber: 2,
-      address: 'Bahudarmai Ward 2, Pipra',
-      isAvailable: true,
-      phone: '9767721133',
-      email: 'bibek@example.com',
-      consentToContact: true,
-    });
-
-    // 7. Site Settings
+    // 5. Site Settings
     await SiteSettings.create({
       heroTitle: { en: 'Bahudarmai Yuwa Club', ne: 'बहुदरमाई युवा क्लब' },
       heroSubtitle: { en: 'Bahudarmai Municipality-02, Pipra (Parsa) • Estd. 2080 BYC', ne: 'बहुदरमाई न.पा.-२, पिपरा (पर्सा) • स्था. २०८० BYC' },
-      stats: { youthMembers: 1, communityEvents: 2, socialInitiatives: 0, peopleReached: 82 },
+      stats: { youthMembers: 38, communityEvents: 2, socialInitiatives: 0, peopleReached: 1250 },
       presidentMessage: {
         name: { en: 'Dhananjay Patel', ne: 'धनञ्जय पटेल' },
         title: { en: 'President, Bahudarmai Yuwa Club', ne: 'अध्यक्ष, बहुदरमाई युवा क्लब' },
@@ -195,7 +133,7 @@ export const runSeedData = async (req, res, next) => {
 
     return res.json({
       success: true,
-      message: 'Cloud Database successfully seeded with 38 BYC Official Committee Members & Sample Data!',
+      message: 'Cloud Database successfully seeded with 38 BYC Members & Leadership!',
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
