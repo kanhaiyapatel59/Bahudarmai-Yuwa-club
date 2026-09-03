@@ -57,19 +57,20 @@ export const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm max-w-full overflow-x-clip">
-      {/* Top Royal Blue Header Bar with Inline Expanding Search */}
+      {/* Top Royal Blue Header Bar with Search & Quick Info */}
       <div className="bg-[#0055A5] text-white py-2 px-3 sm:px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-3" ref={searchRef}>
+            {/* Unified Hamburger Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1 hover:bg-white/10 rounded-lg transition-colors focus:outline-none shrink-0"
+              className="lg:hidden p-1 hover:bg-white/10 rounded-lg transition-colors focus:outline-none shrink-0"
               title="Toggle Menu"
             >
-              <Menu className="w-6 h-6 text-white" />
+              {mobileMenuOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
             </button>
 
-            {/* Inline Search: Expands right here in the top bar without creating a new line */}
+            {/* Inline Search: Expands right here in the top bar */}
             {searchOpen ? (
               <form onSubmit={handleSearchSubmit} className="flex items-center gap-1.5 animate-fade-in shrink-0">
                 <div className="relative flex items-center">
@@ -134,8 +135,8 @@ export const Navbar = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden 2xl:flex items-center space-x-3 3xl:space-x-5 text-xs 3xl:text-sm font-bold text-slate-700 shrink-0">
+          {/* Desktop Navigation Links (Always visible on laptops & desktops) */}
+          <nav className="hidden lg:flex items-center space-x-2.5 xl:space-x-4 text-xs xl:text-sm font-bold text-slate-700 shrink-0">
             <Link to="/" className="hover:text-[#02529C] transition-colors py-2 whitespace-nowrap">
               {t('nav.home')}
             </Link>
@@ -197,13 +198,13 @@ export const Navbar = () => {
             </Link>
           </nav>
 
-          {/* Right Action Controls */}
-          <div className="hidden 2xl:flex items-center space-x-2.5 shrink-0">
+          {/* Right Action Controls (Donate + Auth) */}
+          <div className="flex items-center space-x-2 shrink-0">
             <LanguageSwitcher />
 
             <Link
               to="/donate"
-              className="px-3 py-1.5 text-xs font-bold text-[#D32F2F] bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors whitespace-nowrap shrink-0"
+              className="px-3 py-1.5 text-xs font-bold text-[#D32F2F] bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors whitespace-nowrap"
             >
               {t('nav.donate')}
             </Link>
@@ -239,46 +240,28 @@ export const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center space-x-2 shrink-0">
+              <div className="hidden sm:flex items-center space-x-2 shrink-0">
                 <Link
                   to="/login"
-                  className="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-[#02529C] hover:bg-slate-100 rounded-lg transition-colors whitespace-nowrap"
+                  className="px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:text-[#02529C] hover:bg-slate-100 rounded-lg transition-colors whitespace-nowrap"
                 >
                   {t('nav.login')}
                 </Link>
                 <Link
                   to="/join"
-                  className="px-3.5 py-1.5 text-xs font-bold text-white bg-[#02529C] hover:bg-[#013F7A] rounded-lg shadow-sm hover:shadow transition-all whitespace-nowrap"
+                  className="px-3 py-1.5 text-xs font-bold text-white bg-[#02529C] hover:bg-[#013F7A] rounded-lg shadow-sm hover:shadow transition-all whitespace-nowrap"
                 >
                   {t('nav.join')}
                 </Link>
               </div>
             )}
           </div>
-
-          {/* Mobile & Tablet Hamburger Controls */}
-          <div className="flex items-center space-x-1.5 sm:space-x-2 2xl:hidden shrink-0">
-            <Link
-              to="/donate"
-              className="px-2.5 py-1.5 text-xs font-bold text-[#D32F2F] bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors whitespace-nowrap"
-            >
-              {t('nav.donate')}
-            </Link>
-            <LanguageSwitcher />
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle Navigation Menu"
-              className="p-2 text-slate-700 hover:text-[#02529C] hover:bg-slate-100 rounded-xl focus:outline-none border border-slate-200"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
         </div>
       </div>
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="2xl:hidden border-t border-slate-200 bg-white px-4 pt-4 pb-8 space-y-4 shadow-xl max-h-[85vh] overflow-y-auto animate-fade-in">
+        <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-4 pb-8 space-y-4 shadow-xl max-h-[85vh] overflow-y-auto animate-fade-in">
           <div className="grid grid-cols-2 gap-2 pb-3 border-b border-slate-100">
             <Link
               to="/join"
