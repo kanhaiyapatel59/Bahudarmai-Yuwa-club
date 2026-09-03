@@ -28,6 +28,9 @@ dotenv.config();
 
 const app = express();
 
+// Trust proxy for Render / Cloud reverse proxies
+app.set('trust proxy', 1);
+
 // Security & Utility Middleware
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(
