@@ -10,10 +10,18 @@ export const AdminVolunteers = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    volunteerService.getAll().then((res) => {
-      if (res.data.success) setVolunteers(res.data.volunteers);
-      setLoading(false);
-    });
+    volunteerService.getAll()
+      .then((res) => {
+        if (res.data && res.data.success) {
+          setVolunteers(res.data.volunteers || []);
+        }
+      })
+      .catch((err) => {
+        console.error('Error loading volunteers:', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -52,17 +60,17 @@ export const AdminVolunteers = () => {
                     </td>
                     <td className="p-4">
                       <div className="flex flex-wrap gap-1">
-                        {vol.preferredActivities.map((act, i) => (
+                        {(vol.preferredActivities || []).map((act, i) => (
                           <span key={i} className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-semibold">
                             {act}
                           </span>
                         ))}
                       </div>
                     </td>
-                    <td className="p-4 font-semibold uppercase text-[10px] text-emerald-700">{vol.availability}</td>
+                    <td className="p-4 font-medium">{vol.availability || 'Flexible'}</td>
                     <td className="p-4">
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        {vol.status}
+                      <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-bold">
+                        {vol.status || 'Active'}
                       </span>
                     </td>
                   </tr>

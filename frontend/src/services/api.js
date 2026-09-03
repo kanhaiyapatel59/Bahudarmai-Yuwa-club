@@ -54,10 +54,10 @@ export const authService = {
 // Members Services
 export const memberService = {
   apply: (data) => API.post('/members/apply', data),
-  getProfile: () => API.get('/members/profile'),
-  getMyStatus: () => API.get('/members/profile'),
-  getAll: (params) => API.get('/admin/members', { params }),
-  updateStatus: (id, status) => API.put(`/admin/members/${id}/role`, { status }),
+  getProfile: () => API.get('/members/my-status'),
+  getMyStatus: () => API.get('/members/my-status'),
+  getAll: (params) => API.get('/members', { params }),
+  updateStatus: (id, status) => API.put(`/members/${id}/status`, { status }),
 };
 
 // Events Services
@@ -71,11 +71,11 @@ export const eventService = {
 
 // News & Notices Services
 export const articleService = {
-  getAll: (params) => API.get('/news', { params }),
-  getBySlug: (slug) => API.get(`/news/${slug}`),
-  create: (data) => API.post('/news', data),
-  update: (id, data) => API.put(`/news/${id}`, data),
-  delete: (id) => API.delete(`/news/${id}`),
+  getAll: (params) => API.get('/news-notices', { params }),
+  getBySlug: (slug) => API.get(`/news-notices/${slug}`),
+  create: (data) => API.post('/news-notices', data),
+  update: (id, data) => API.put(`/news-notices/${id}`, data),
+  delete: (id) => API.delete(`/news-notices/${id}`),
 };
 export const newsNoticeService = articleService;
 
@@ -110,33 +110,39 @@ export const bloodDonorService = {
 
 // Community Help Request Services
 export const helpService = {
-  requestHelp: (data) => API.post('/help', data),
-  trackTicket: (ticketNo) => API.get(`/help/track/${ticketNo}`),
-  getAllAdmin: (params) => API.get('/admin/help-requests', { params }),
+  requestHelp: (data) => API.post('/help-requests/request', data),
+  trackTicket: (ticketNo) => API.get(`/help-requests/track/${ticketNo}`),
+  getAllAdmin: (params) => API.get('/help-requests/admin', { params }),
+  updateStatus: (id, status) => API.put(`/help-requests/${id}/status`, { status }),
 };
 
 // Donations Services
 export const donationService = {
-  initiate: (data) => API.post('/donations/initiate', data),
+  initiate: (data) => API.post('/donations/record', data),
   verifyPayment: (data) => API.post('/donations/verify', data),
-  recordBankTransfer: (data) => API.post('/donations/bank-transfer', data),
-  getStats: () => API.get('/admin/donations'),
+  recordBankTransfer: (data) => API.post('/donations/record', data),
+  getStats: () => API.get('/donations/stats'),
+  getAllAdmin: (params) => API.get('/donations/admin', { params }),
+  updateStatus: (id, status) => API.put(`/donations/${id}/status`, { status }),
 };
 
 // Contact & Volunteer Services
 export const volunteerService = {
-  register: (data) => API.post('/volunteer/register', data),
-  getAll: (params) => API.get('/admin/volunteers', { params }),
+  register: (data) => API.post('/volunteers/apply', data),
+  getAll: (params) => API.get('/volunteers', { params }),
+  updateStatus: (id, status) => API.put(`/volunteers/${id}/status`, { status }),
 };
 
 export const contactService = {
-  sendMessage: (data) => API.post('/contact', data),
-  getAllAdmin: (params) => API.get('/admin/messages', { params }),
+  sendMessage: (data) => API.post('/contact/send', data),
+  getAllAdmin: (params) => API.get('/contact/admin', { params }),
+  markRead: (id) => API.put(`/contact/${id}/read`),
 };
 
 export const messageService = {
-  sendContact: (data) => API.post('/contact', data),
-  registerVolunteer: (data) => API.post('/volunteer/register', data),
+  sendContact: (data) => API.post('/contact/send', data),
+  registerVolunteer: (data) => API.post('/volunteers/apply', data),
+  getAllAdmin: (params) => API.get('/contact/admin', { params }),
 };
 
 // Site Settings Services
@@ -145,18 +151,18 @@ export const siteSettingsService = {
   updateSettings: (data) => API.put('/site-settings', data),
 };
 
-// Admin Services
+// Admin Services Alias Mapping
 export const adminService = {
-  getOverviewStats: () => API.get('/admin/overview'),
-  getMembers: (params) => API.get('/admin/members', { params }),
-  updateMemberRole: (id, role) => API.put(`/admin/members/${id}/role`, { role }),
-  getVolunteers: (params) => API.get('/admin/volunteers', { params }),
-  updateVolunteerStatus: (id, status) => API.put(`/admin/volunteers/${id}/status`, { status }),
-  getHelpRequests: (params) => API.get('/admin/help-requests', { params }),
-  updateHelpStatus: (id, data) => API.put(`/admin/help-requests/${id}`, data),
-  getDonations: (params) => API.get('/admin/donations', { params }),
-  verifyDonation: (id, status) => API.put(`/admin/donations/${id}/verify`, { status }),
-  getMessages: (params) => API.get('/admin/messages', { params }),
+  getOverviewStats: () => API.get('/site-settings'),
+  getMembers: (params) => API.get('/members', { params }),
+  updateMemberRole: (id, role) => API.put(`/members/${id}/status`, { role }),
+  getVolunteers: (params) => API.get('/volunteers', { params }),
+  updateVolunteerStatus: (id, status) => API.put(`/volunteers/${id}/status`, { status }),
+  getHelpRequests: (params) => API.get('/help-requests/admin', { params }),
+  updateHelpStatus: (id, data) => API.put(`/help-requests/${id}/status`, data),
+  getDonations: (params) => API.get('/donations/admin', { params }),
+  verifyDonation: (id, status) => API.put(`/donations/${id}/status`, { status }),
+  getMessages: (params) => API.get('/contact/admin', { params }),
 };
 
 export default API;
