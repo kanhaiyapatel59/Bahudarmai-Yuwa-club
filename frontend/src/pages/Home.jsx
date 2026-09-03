@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../context/LanguageContext';
 import BilingualText from '../components/common/BilingualText';
+import PWAInstallModal from '../components/common/PWAInstallModal';
 import { siteSettingsService, eventService } from '../services/api';
 import { localizeNumber } from '../utils/numberLocalizer';
 import { formatDate } from '../utils/dateFormatter';
@@ -31,6 +32,7 @@ export const Home = () => {
   const [settings, setSettings] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showInstallModal, setShowInstallModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -152,15 +154,14 @@ export const Home = () => {
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
-                <a
-                  href="/byc-app.apk"
-                  download="BYC-Bahudarmai-Yuwa-Club.apk"
-                  className="w-full sm:w-auto px-6 py-3.5 text-sm font-extrabold text-slate-900 bg-yellow-400 hover:bg-yellow-300 rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
-                  title="Direct Download Android App without Play Store"
+                <button
+                  onClick={() => setShowInstallModal(true)}
+                  className="w-full sm:w-auto px-6 py-3.5 text-sm font-extrabold text-slate-900 bg-yellow-400 hover:bg-yellow-300 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  title="Direct 1-Click Mobile App Installation without Play Store"
                 >
-                  <Download className="w-4 h-4 text-slate-900" />
-                  <span>{currentLang === 'ne' ? 'एप डाउनलोड गर्नुहोस् (.APK)' : 'Download Android App (.APK)'}</span>
-                </a>
+                  <Smartphone className="w-4 h-4 text-slate-900" />
+                  <span>{currentLang === 'ne' ? 'मोबाइल एप इन्स्टल गर्नुहोस्' : 'Install BYC Mobile App'}</span>
+                </button>
 
                 <Link
                   to="/volunteer"
@@ -249,6 +250,9 @@ export const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* PWA Mobile Installation Modal */}
+      <PWAInstallModal isOpen={showInstallModal} onClose={() => setShowInstallModal(false)} />
 
       {/* 2. Impact Statistics Counters */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
