@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 
 import { connectDB } from './config/db.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { runSeedData } from './controllers/seedController.js';
 
 // Route imports
 import authRoutes from './routes/authRoutes.js';
@@ -28,10 +29,10 @@ dotenv.config();
 const app = express();
 
 // Security & Utility Middleware
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: '*',
     credentials: true,
   })
 );
@@ -59,6 +60,10 @@ app.get('/', (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+// Cloud Seed Routes (Populate MongoDB Atlas)
+app.get('/api/seed', runSeedData);
+app.get('/api/v1/seed', runSeedData);
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);

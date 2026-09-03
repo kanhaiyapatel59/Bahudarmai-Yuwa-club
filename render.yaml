@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: bahudarmai-yuwa-club-api
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node src/server.js
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://kanhaiya:patel@foodyham.anqqbp7.mongodb.net/byc_db?retryWrites=true&w=majority
+      - key: JWT_SECRET
+        value: byc_production_jwt_secret_key_2080_pipra_parsa
+      - key: NODE_ENV
+        value: production
+      - key: CLIENT_URL
+        value: "*"
