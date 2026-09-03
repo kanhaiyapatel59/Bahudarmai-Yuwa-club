@@ -15,12 +15,19 @@ export const LeadershipPage = () => {
   const [showPosterModal, setShowPosterModal] = useState(false);
 
   useEffect(() => {
-    leadershipService.getAll().then((res) => {
-      if (res.data.success) {
-        setLeadership(res.data.members);
-      }
-      setLoading(false);
-    });
+    leadershipService
+      .getAll()
+      .then((res) => {
+        if (res.data && res.data.success) {
+          setLeadership(res.data.members || []);
+        }
+      })
+      .catch((err) => {
+        console.error('Leadership fetch error:', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   return (

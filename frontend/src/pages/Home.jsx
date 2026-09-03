@@ -33,13 +33,17 @@ export const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [settingsRes, eventsRes] = await Promise.all([
+        const [settingsRes, eventsRes] = await Promise.allSettled([
           siteSettingsService.getPublic(),
           eventService.getEvents({ limit: 6 }),
         ]);
 
-        if (settingsRes.data.success) setSettings(settingsRes.data.settings);
-        if (eventsRes.data.success) setUpcomingEvents(eventsRes.data.events);
+        if (settingsRes.status === 'fulfilled' && settingsRes.value?.data?.success) {
+          setSettings(settingsRes.value.data.settings);
+        }
+        if (eventsRes.status === 'fulfilled' && eventsRes.value?.data?.success) {
+          setUpcomingEvents(eventsRes.value.data.events);
+        }
       } catch (err) {
         console.error('Error loading homepage data:', err);
       } finally {

@@ -13,6 +13,7 @@ const getBaseURL = () => {
 
 const API = axios.create({
   baseURL: getBaseURL(),
+  timeout: 8000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -48,7 +49,7 @@ export const authService = {
   getMe: () => API.get('/auth/me'),
   updateProfile: (data) => API.put('/auth/language', data),
   changePassword: (data) => API.put('/auth/change-password', data),
-  updateLanguage: (lang) => API.put('/auth/language', { languagePreference: lang }),
+  updateLanguage: (lang) => API.put('/auth/language', { lang, languagePreference: lang }),
 };
 
 // Members Services

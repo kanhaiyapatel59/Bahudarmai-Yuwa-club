@@ -106,7 +106,7 @@ export const getMe = async (req, res, next) => {
 
 export const updateLanguagePreference = async (req, res, next) => {
   try {
-    const { lang } = req.body;
+    const lang = req.body.lang || req.body.languagePreference;
     if (!['en', 'ne'].includes(lang)) {
       return res.status(400).json({ success: false, message: 'Invalid language preference' });
     }
