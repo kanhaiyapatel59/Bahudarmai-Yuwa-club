@@ -48,11 +48,16 @@ export const authService = {
   getMe: () => API.get('/auth/me'),
   updateProfile: (data) => API.put('/auth/profile', data),
   changePassword: (data) => API.put('/auth/change-password', data),
+  updateLanguage: (lang) => API.put('/auth/profile', { languagePreference: lang }),
 };
 
+// Members Services
 export const memberService = {
   apply: (data) => API.post('/members/apply', data),
   getProfile: () => API.get('/members/profile'),
+  getMyStatus: () => API.get('/members/profile'),
+  getAll: (params) => API.get('/admin/members', { params }),
+  updateStatus: (id, status) => API.put(`/admin/members/${id}/role`, { status }),
 };
 
 // Events Services
@@ -107,6 +112,7 @@ export const bloodDonorService = {
 export const helpService = {
   requestHelp: (data) => API.post('/help', data),
   trackTicket: (ticketNo) => API.get(`/help/track/${ticketNo}`),
+  getAllAdmin: (params) => API.get('/admin/help-requests', { params }),
 };
 
 // Donations Services
@@ -114,18 +120,23 @@ export const donationService = {
   initiate: (data) => API.post('/donations/initiate', data),
   verifyPayment: (data) => API.post('/donations/verify', data),
   recordBankTransfer: (data) => API.post('/donations/bank-transfer', data),
+  getStats: () => API.get('/admin/donations'),
 };
 
 // Contact & Volunteer Services
+export const volunteerService = {
+  register: (data) => API.post('/volunteer/register', data),
+  getAll: (params) => API.get('/admin/volunteers', { params }),
+};
+
+export const contactService = {
+  sendMessage: (data) => API.post('/contact', data),
+  getAllAdmin: (params) => API.get('/admin/messages', { params }),
+};
+
 export const messageService = {
   sendContact: (data) => API.post('/contact', data),
   registerVolunteer: (data) => API.post('/volunteer/register', data),
-};
-export const contactService = {
-  sendMessage: (data) => API.post('/contact', data),
-};
-export const volunteerService = {
-  register: (data) => API.post('/volunteer/register', data),
 };
 
 // Site Settings Services
