@@ -9,9 +9,9 @@ export const LanguageSwitcher = ({ variant = 'default', className = '' }) => {
 
   return (
     <div
-      className={`flex items-center space-x-1 p-1 rounded-full border transition-colors ${
+      className={`inline-flex items-center space-x-1 p-0.5 sm:p-1 rounded-full border transition-colors shrink-0 ${
         isTopbar
-          ? 'bg-white/15 backdrop-blur-xs border-white/25 text-white'
+          ? 'bg-white/20 backdrop-blur-xs border-white/30 text-white'
           : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
       } ${className}`}
     >
@@ -23,7 +23,7 @@ export const LanguageSwitcher = ({ variant = 'default', className = '' }) => {
       <button
         type="button"
         onClick={() => changeLanguage('en')}
-        className={`px-2 py-0.5 text-xs font-semibold rounded-full transition-all duration-200 cursor-pointer ${
+        className={`px-2 py-0.5 text-[11px] sm:text-xs font-bold rounded-full transition-all duration-200 cursor-pointer ${
           currentLang === 'en'
             ? 'bg-emerald-600 text-white shadow-xs'
             : isTopbar
@@ -36,7 +36,7 @@ export const LanguageSwitcher = ({ variant = 'default', className = '' }) => {
       <button
         type="button"
         onClick={() => changeLanguage('ne')}
-        className={`px-2 py-0.5 text-xs font-semibold rounded-full font-ne transition-all duration-200 cursor-pointer ${
+        className={`px-2 py-0.5 text-[11px] sm:text-xs font-bold rounded-full font-ne transition-all duration-200 cursor-pointer ${
           currentLang === 'ne'
             ? 'bg-emerald-600 text-white shadow-xs'
             : isTopbar

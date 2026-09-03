@@ -125,8 +125,8 @@ export const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-2 sm:space-x-3 text-xs font-semibold text-blue-100 shrink-0">
-            <span className="font-ne hidden md:inline">📍 बहुदरमाई न.पा.-२, पिपरा (पर्सा)</span>
-            <span className="font-mono bg-white/10 px-2 py-0.5 rounded text-[11px] sm:text-xs text-white hidden sm:inline">📞 9767721133</span>
+            <span className="font-ne hidden xl:inline">📍 बहुदरमाई न.पा.-२, पिपरा (पर्सा)</span>
+            <span className="font-mono bg-white/10 px-2 py-0.5 rounded text-[11px] sm:text-xs text-white hidden lg:inline">📞 9767721133</span>
             <LanguageSwitcher variant="topbar" />
           </div>
         </div>
