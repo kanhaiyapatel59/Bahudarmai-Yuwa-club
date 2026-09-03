@@ -6,6 +6,7 @@ import './i18n/config';
 
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
+import PWAInstallPrompt from './components/common/PWAInstallPrompt';
 
 // Public Pages
 import Home from './pages/Home';
@@ -58,6 +59,7 @@ const MainLayout = () => {
         <Outlet />
       </main>
       <Footer />
+      <PWAInstallPrompt />
     </div>
   );
 };
@@ -103,32 +105,33 @@ export default function App() {
               <Route path="/donate" element={<DonatePage />} />
               <Route path="/contact" element={<ContactPage />} />
 
+              {/* Auth Routes */}
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
-
-              {/* Member Portal Protected Route */}
-              <Route element={<MemberRoute />}>
-                <Route path="/member" element={<MemberDashboard />} />
-              </Route>
             </Route>
 
-            {/* Admin Dashboard Protected Routes */}
+            {/* Authenticated Member Portal */}
+            <Route element={<MemberRoute />}>
+              <Route path="/member" element={<MemberDashboard />} />
+            </Route>
+
+            {/* Authenticated Admin Dashboard */}
             <Route element={<AdminRoute />}>
-              <Route element={<AdminLayout />}>
-                <Route path="/admin" element={<AdminOverview />} />
-                <Route path="/admin/members" element={<AdminMembers />} />
-                <Route path="/admin/volunteers" element={<AdminVolunteers />} />
-                <Route path="/admin/events" element={<AdminEvents />} />
-                <Route path="/admin/news" element={<AdminNewsNotices />} />
-                <Route path="/admin/gallery" element={<AdminGallery />} />
-                <Route path="/admin/leadership" element={<AdminLeadership />} />
-                <Route path="/admin/achievements" element={<AdminAchievements />} />
-                <Route path="/admin/blood-donors" element={<AdminBloodDonors />} />
-                <Route path="/admin/help-requests" element={<AdminHelpRequests />} />
-                <Route path="/admin/donations" element={<AdminDonations />} />
-                <Route path="/admin/messages" element={<AdminMessages />} />
-                <Route path="/admin/settings" element={<AdminSiteSettings />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<AdminOverview />} />
+                <Route path="members" element={<AdminMembers />} />
+                <Route path="volunteers" element={<AdminVolunteers />} />
+                <Route path="events" element={<AdminEvents />} />
+                <Route path="news" element={<AdminNewsNotices />} />
+                <Route path="gallery" element={<AdminGallery />} />
+                <Route path="leadership" element={<AdminLeadership />} />
+                <Route path="achievements" element={<AdminAchievements />} />
+                <Route path="blood-donors" element={<AdminBloodDonors />} />
+                <Route path="help-requests" element={<AdminHelpRequests />} />
+                <Route path="donations" element={<AdminDonations />} />
+                <Route path="messages" element={<AdminMessages />} />
+                <Route path="settings" element={<AdminSiteSettings />} />
               </Route>
             </Route>
 
