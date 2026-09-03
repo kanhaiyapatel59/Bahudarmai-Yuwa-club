@@ -11,6 +11,7 @@ import {
   User,
   Shield,
   LogOut,
+  Search,
 } from 'lucide-react';
 
 export const Navbar = () => {
@@ -20,6 +21,8 @@ export const Navbar = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activitiesDropdownOpen, setActivitiesDropdownOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const focusAreas = [
     { name: t('nav.sports'), path: '/activities/sports' },
@@ -30,21 +33,61 @@ export const Navbar = () => {
     { name: t('nav.culture'), path: '/activities/culture' },
   ];
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/events?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery('');
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm max-w-full overflow-x-clip">
-      {/* Top Royal Blue Notice Bar */}
-      <div className="bg-[#013F7A] text-white text-xs py-1.5 px-3 sm:px-4">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1.5 text-center sm:text-left font-medium">
-          <div className="flex items-center gap-2 justify-center sm:justify-start flex-wrap">
-            <span className="bg-[#D32F2F] text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded-md shadow-2xs">
-              सूचना / Notice
-            </span>
-            <span className="text-[11px] sm:text-xs">बहुदरमाई युवा क्लब साधारण सदस्यता आवेदन खुला! | Helpline: 9767721133</span>
+      {/* Top Royal Blue Header Bar matching reference image (Menu + Search icons) */}
+      <div className="bg-[#0055A5] text-white py-2 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center space-x-5">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-1 hover:bg-white/10 rounded-lg transition-colors focus:outline-none"
+              title="Toggle Menu"
+            >
+              <Menu className="w-6 h-6 text-white" />
+            </button>
+
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="p-1 hover:bg-white/10 rounded-lg transition-colors focus:outline-none flex items-center gap-1.5 text-xs font-semibold"
+              title="Search Events & Activities"
+            >
+              <Search className="w-5 h-5 text-white" />
+              <span className="hidden sm:inline text-blue-100">Search BYC...</span>
+            </button>
           </div>
-          <div className="flex items-center gap-3 text-blue-100 text-[10px] sm:text-[11px] justify-center sm:justify-end flex-wrap font-ne">
-            <span>📍 बहुदरमाई न.पा.-२, पिपरा (पर्सा)</span>
+
+          <div className="flex items-center space-x-4 text-xs font-semibold text-blue-100">
+            <span className="font-ne hidden sm:inline">📍 बहुदरमाई न.पा.-२, पिपरा (पर्सा)</span>
+            <span className="font-mono bg-white/10 px-2.5 py-1 rounded-md text-white">📞 9767721133</span>
           </div>
         </div>
+
+        {/* Collapsible Search Input */}
+        {searchOpen && (
+          <form onSubmit={handleSearchSubmit} className="max-w-7xl mx-auto mt-2 pt-2 border-t border-blue-400/30 flex gap-2 animate-fade-in">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search events, news, notices, blood donors..."
+              className="w-full px-3 py-1.5 rounded-lg bg-white text-slate-900 text-xs focus:outline-none font-medium"
+              autoFocus
+            />
+            <button type="submit" className="px-4 py-1.5 bg-[#D32F2F] text-white font-bold text-xs rounded-lg shrink-0">
+              Search
+            </button>
+          </form>
+        )}
       </div>
 
       {/* Main Navigation Bar */}
