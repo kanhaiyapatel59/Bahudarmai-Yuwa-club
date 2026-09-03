@@ -30,7 +30,7 @@ API.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Intercept 401 unauth errors
+// Intercept 401 unauth errors silently
 API.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -46,9 +46,9 @@ export const authService = {
   login: (credentials) => API.post('/auth/login', credentials),
   register: (userData) => API.post('/auth/register', userData),
   getMe: () => API.get('/auth/me'),
-  updateProfile: (data) => API.put('/auth/profile', data),
+  updateProfile: (data) => API.put('/auth/language', data),
   changePassword: (data) => API.put('/auth/change-password', data),
-  updateLanguage: (lang) => API.put('/auth/profile', { languagePreference: lang }),
+  updateLanguage: (lang) => API.put('/auth/language', { languagePreference: lang }),
 };
 
 // Members Services

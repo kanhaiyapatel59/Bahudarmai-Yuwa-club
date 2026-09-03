@@ -59,7 +59,7 @@ export const Home = () => {
     location: { en: 'Bahudarmai Municipality-02, Pipra (Parsa)', ne: 'बहुदरमाई न.पा.-२, पिपरा (पर्सा)' },
   };
 
-  const heroBackgroundImage = latestPostedEvent.bannerImage || '/byc_committee_banner.jpg';
+  const heroBackgroundImage = '/byc_temple_bg.jpg';
 
   const focusCards = [
     {
